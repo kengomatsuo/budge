@@ -65,11 +65,9 @@ class DummyDataSeeder extends Seeder
                     $durationMonths = $faker->numberBetween(0, 6);
                     $endDate = $durationMonths > 0 ? Carbon::parse($startDate)->addMonths($durationMonths)->toDateString() : null;
 
-                    // compute amount with more realistic ranges
-                    $amount = $faker->randomFloat(2, 50, 500000);
-                    if ($faker->boolean(10)) {
-                        $amount = $faker->randomFloat(2, 500000, 5000000);
-                    }
+                    // pick currency distribution and compute amount with realistic ranges per currency
+                    $currency = $this->pickCurrency($faker);
+                    $amount = $this->randomAmountForCurrency($faker, $currency, true);
 
                     // If open-ended already exists for this category+user, skip creating another open-ended
                     if (is_null($endDate)) {
@@ -98,7 +96,7 @@ class DummyDataSeeder extends Seeder
                         'user_id' => $user->id,
                         'category_id' => $cat->id,
                         'amount' => $amount,
-                        'currency' => Arr::random(['IDR', 'USD', 'EUR', 'JPY']),
+                        'currency' => $currency,
                         'period_type' => $period,
                         'start_date' => $startDate,
                         'end_date' => $endDate,
@@ -114,16 +112,9 @@ class DummyDataSeeder extends Seeder
                 $cat = $categories->random();
 
                 // Amount distribution: many small, some medium, occasional large
-                $r = $faker->numberBetween(1, 100);
-                if ($r <= 55) {
-                    $amount = $faker->randomFloat(2, 1, 50); // daily small purchases
-                } elseif ($r <= 85) {
-                    $amount = $faker->randomFloat(2, 50, 500); // typical purchases
-                } elseif ($r <= 97) {
-                    $amount = $faker->randomFloat(2, 500, 5000); // bigger items
-                } else {
-                    $amount = $faker->randomFloat(2, 5000, 500000); // rare large expenses
-                }
+                    // pick a currency and generate a realistic amount for it
+                    $currency = $this->pickCurrency($faker);
+                    $amount = $this->randomAmountForCurrency($faker, $currency, false);
 
                 $title = $faker->sentence($faker->numberBetween(2, 6));
                 if ($faker->boolean(2)) {
@@ -148,8 +139,8 @@ class DummyDataSeeder extends Seeder
                     'category_id' => $cat->id,
                     'title' => $title,
                     'description' => $faker->paragraphs($faker->numberBetween(0, 4), true),
-                    'amount' => $amount,
-                    'currency' => Arr::random(['IDR', 'USD', 'EUR']),
+                        'amount' => $amount,
+                        'currency' => $currency,
                     'expense_date' => Carbon::instance($date)->format('Y-m-d'),
                     'payment_method' => Arr::random(['cash', 'debit_card', 'credit_card', 'e_wallet']),
                     'is_shared' => false,
@@ -231,5 +222,66 @@ class DummyDataSeeder extends Seeder
                          ->orWhere('end_date', '>=', $newStart);
                   });
             })->exists();
+    }
+
+    private function pickCurrency($faker)
+    {
+        // Weighted distribution: mostly IDR, some USD/EUR/JPY
+        $r = $faker->numberBetween(1, 100);
+        if ($r <= 80) return 'IDR';
+        if ($r <= 90) return 'USD';
+        if ($r <= 95) return 'EUR';
+        return 'JPY';
+    }
+
+    private function randomAmountForCurrency($faker, $currency, $isBudget = false)
+    {
+        $currency = strtoupper($currency ?: 'IDR');
+
+        // Budgets are typically higher than expenses
+        if ($currency === 'IDR') {
+            if ($isBudget) {
+                return $faker->randomFloat(2, 100000, 20000000); // 100k to 20M IDR
+            }
+            // expense
+            $r = $faker->numberBetween(1, 100);
+            if ($r <= 60) return $faker->randomFloat(2, 5000, 50000);
+            if ($r <= 90) return $faker->randomFloat(2, 50000, 500000);
+            return $faker->randomFloat(2, 500000, 5000000);
+        }
+
+        if ($currency === 'USD') {
+            if ($isBudget) {
+                return $faker->randomFloat(2, 100, 5000); // $100 - $5k
+            }
+            $r = $faker->numberBetween(1, 100);
+            if ($r <= 60) return $faker->randomFloat(2, 1, 20);
+            if ($r <= 90) return $faker->randomFloat(2, 20, 200);
+            return $faker->randomFloat(2, 200, 5000);
+        }
+
+        if ($currency === 'EUR') {
+            if ($isBudget) {
+                return $faker->randomFloat(2, 100, 4000);
+            }
+            $r = $faker->numberBetween(1, 100);
+            if ($r <= 60) return $faker->randomFloat(2, 1, 20);
+            if ($r <= 90) return $faker->randomFloat(2, 20, 200);
+            return $faker->randomFloat(2, 200, 4000);
+        }
+
+        // JPY
+        if ($currency === 'JPY') {
+            if ($isBudget) {
+                return $faker->randomFloat(2, 10000, 500000); // 10k - 500k JPY
+            }
+            $r = $faker->numberBetween(1, 100);
+            if ($r <= 60) return $faker->randomFloat(2, 100, 2000);
+            if ($r <= 90) return $faker->randomFloat(2, 2000, 20000);
+            return $faker->randomFloat(2, 20000, 500000);
+        }
+
+        // default fallback
+        return $faker->randomFloat(2, 10, 1000);
     }
 }

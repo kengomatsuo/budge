@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Load helpers
+        $helpers = app_path('Helpers/currency.php');
+        if (file_exists($helpers)) {
+            require_once $helpers;
+        }
     }
 }

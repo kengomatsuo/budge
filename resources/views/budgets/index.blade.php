@@ -41,7 +41,7 @@
                                     <div class="text-right">
                                         <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('messages.budget_amount') }}</div>
                                         <div class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                            {{ auth()->user()->preferred_currency }} {{ number_format($budget->amount, 2) }}
+                                                {{ auth()->user()->preferred_currency }} {{ number_format(convert_currency($budget->amount, $budget->currency, auth()->user()->preferred_currency), 2) }}
                                         </div>
                                     </div>
                                     <div class="flex space-x-2">
@@ -64,7 +64,7 @@
                             <div>
                                 <div class="flex justify-between mb-2">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {{ __('messages.total_spent') }}: {{ auth()->user()->preferred_currency }} {{ number_format($budget->spent, 2) }}
+                                        {{ __('messages.total_spent') }}: {{ auth()->user()->preferred_currency }} {{ number_format(convert_currency($budget->spent, $budget->currency ?? ($budget->currency ?? 'IDR'), auth()->user()->preferred_currency), 2) }}
                                     </span>
                                     <span class="text-sm font-medium">
                                         <span class="px-2 py-1 rounded text-white {{ $budget->status === 'over_budget' ? 'bg-red-600' : ($budget->status === 'warning' ? 'bg-yellow-500' : 'bg-green-500') }}">

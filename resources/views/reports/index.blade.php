@@ -49,7 +49,7 @@
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.largest_expense') }}</div>
                     <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
                         @if($largestExpense)
-                        {{ auth()->user()->preferred_currency }} {{ number_format($largestExpense->amount, 2) }}
+                        {{ auth()->user()->preferred_currency }} {{ number_format($largestExpense->converted_amount ?? $largestExpense->amount ?? 0, 2) }}
                         <div class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $largestExpense->title }}</div>
                         @else
                         -

@@ -21,10 +21,15 @@ class BudgetController extends Controller
             })
             ->get()
             ->map(function($budget) {
-                $spent = Expense::where('user_id', $budget->user_id)
+                $expenses = Expense::where('user_id', $budget->user_id)
                     ->where('category_id', $budget->category_id)
                     ->whereBetween('expense_date', [$budget->start_date, $budget->end_date ?? now()])
-                    ->sum('amount');
+                    ->get();
+
+                // Sum expenses converted to the budget's currency
+                $spent = $expenses->sum(function($e) use ($budget) {
+                    return convert_currency($e->amount, $e->currency ?? 'IDR', $budget->currency ?? 'IDR');
+                });
 
                 $budget->spent = $spent;
                 $budget->percentage = $budget->amount > 0 ? ($spent / $budget->amount) * 100 : 0;

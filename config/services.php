@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'exchange_rate' => [
+        'provider' => env('EXCHANGE_RATE_PROVIDER', 'exchangerate_api_v6'),
+        'key' => env('EXCHANGE_RATE_API_KEY'),
+        // base endpoint template — ExchangeRate-API v6
+        'v6_endpoint' => env('EXCHANGE_RATE_V6_ENDPOINT', 'https://v6.exchangerate-api.com/v6/%s/latest/%s'),
+    ],
+
 ];

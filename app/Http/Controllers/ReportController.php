@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -16,35 +17,55 @@ class ReportController extends Controller
 
         [$startDate, $endDate] = $this->getDateRange($period);
 
-        $query = Expense::where('user_id', auth()->id())
+        $expensesQuery = Expense::with('category')->where('user_id', auth()->id())
             ->whereBetween('expense_date', [$startDate, $endDate]);
 
         if ($categoryId) {
-            $query->where('category_id', $categoryId);
+            $expensesQuery->where('category_id', $categoryId);
         }
 
-        $totalSpent = $query->sum('amount');
-        $expenseCount = $query->count();
+        $expenses = $expensesQuery->get();
 
-        $spendingByCategory = Expense::select('categories.name', 'categories.color', DB::raw('SUM(expenses.amount) as total'))
-            ->join('categories', 'expenses.category_id', '=', 'categories.id')
-            ->where('expenses.user_id', auth()->id())
-            ->whereBetween('expenses.expense_date', [$startDate, $endDate])
-            ->groupBy('categories.id', 'categories.name', 'categories.color')
-            ->orderBy('total', 'desc')
-            ->get();
+        $userPreferred = auth()->user()->preferred_currency;
 
-        $spendingTrend = Expense::selectRaw('DATE(expense_date) as date, SUM(amount) as total')
-            ->where('user_id', auth()->id())
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
+        // total spent in user's preferred currency
+        $totalSpent = $expenses->sum(function($e) use ($userPreferred) {
+            return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+        });
 
-        $largestExpense = Expense::where('user_id', auth()->id())
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->orderBy('amount', 'desc')
-            ->first();
+        $expenseCount = $expenses->count();
+
+        // spending by category (converted)
+        $spendingByCategory = $expenses->groupBy('category_id')
+            ->map(function($items) use ($userPreferred) {
+                $first = $items->first();
+                $total = $items->sum(function($e) use ($userPreferred) {
+                    return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+                });
+                return (object) [
+                    'name' => $first->category->name ?? 'Unknown',
+                    'color' => $first->category->color ?? null,
+                    'total' => $total,
+                ];
+            })->values();
+
+        // spending trend per date
+        $spendingTrend = $expenses->groupBy(function($e) {
+            return Carbon::parse($e->expense_date)->format('Y-m-d');
+        })->map(function($items) use ($userPreferred) {
+            return (object) [
+                'date' => Carbon::parse($items->first()->expense_date)->format('Y-m-d'),
+                'total' => $items->sum(function($e) use ($userPreferred) {
+                    return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+                }),
+            ];
+        })->sortBy('date')->values();
+
+        // largest expense by converted amount
+        $largestExpense = $expenses->map(function($e) use ($userPreferred) {
+            $e->converted_amount = convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+            return $e;
+        })->sortByDesc('converted_amount')->first();
 
         $categories = Category::where('user_id', auth()->id())->get();
 
