@@ -55,6 +55,15 @@ class BudgetController extends Controller
         $validated['user_id'] = auth()->id();
         $validated['currency'] = auth()->user()->preferred_currency;
 
+        // Prevent overlapping budgets for same user + category
+        $start = $validated['start_date'];
+        $end = $validated['end_date'] ?? null;
+        if ($this->hasOverlap($validated['user_id'], $validated['category_id'], $start, $end)) {
+            return back()
+                ->withErrors(['start_date' => __('messages.budget_overlap')])
+                ->withInput();
+        }
+
         Budget::create($validated);
 
         return redirect()->route('budgets.index')->with('success', __('messages.success'));
@@ -79,9 +88,47 @@ class BudgetController extends Controller
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
+        // Prevent overlapping budgets for same user + category, exclude current budget
+        $start = $validated['start_date'];
+        $end = $validated['end_date'] ?? null;
+        if ($this->hasOverlap($budget->user_id, $validated['category_id'], $start, $end, $budget->id)) {
+            return back()
+                ->withErrors(['start_date' => __('messages.budget_overlap')])
+                ->withInput();
+        }
+
         $budget->update($validated);
 
         return redirect()->route('budgets.index')->with('success', __('messages.success'));
+    }
+
+    /**
+     * Check whether a budget for given user/category overlaps an existing budget.
+     * If $exceptId provided, ignore that budget (useful for updates).
+     */
+    private function hasOverlap($userId, $categoryId, $start, $end = null, $exceptId = null)
+    {
+        // Treat null end as open-ended (far future)
+        $newStart = $start;
+        $newEnd = $end ?? now()->copy()->addYears(1000)->toDateString();
+
+        $query = Budget::where('user_id', $userId)
+            ->where('category_id', $categoryId);
+
+        if ($exceptId) {
+            $query->where('id', '!=', $exceptId);
+        }
+
+        // Overlap exists when existing.start_date <= newEnd AND (existing.end_date IS NULL OR existing.end_date >= newStart)
+        $query->where(function($q) use ($newStart, $newEnd) {
+            $q->where('start_date', '<=', $newEnd)
+              ->where(function($q2) use ($newStart) {
+                  $q2->whereNull('end_date')
+                     ->orWhere('end_date', '>=', $newStart);
+              });
+        });
+
+        return $query->exists();
     }
 
     public function destroy(Budget $budget)

@@ -60,42 +60,9 @@
 
             <!-- Charts Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.spending_by_category') }}</h3>
-                    <div class="space-y-3">
-                        @foreach($spendingByCategory as $category)
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $category->name }}</span>
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ auth()->user()->preferred_currency }} {{ number_format($category->total, 2) }}</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                <div class="h-2.5 rounded-full" style="width: {{ ($category->total / $totalSpent) * 100 }}%; background-color: {{ $category->color ?? '#3B82F6' }}"></div>
-                            </div>
-                        </div>
-                        @endforeach
-                        @if($spendingByCategory->isEmpty())
-                        <p class="text-gray-500 dark:text-gray-400 text-center py-8">{{ __('messages.no_expenses') }}</p>
-                        @endif
-                    </div>
-                </div>
+                <x-spending-by-category :items="$spendingByCategory" :total="$totalSpent" />
 
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.spending_trend') }}</h3>
-                    <div class="h-64 flex items-end justify-around space-x-2">
-                        @php $maxAmount = $spendingTrend->max('total') ?? 1; @endphp
-                        @foreach($spendingTrend as $day)
-                        <div class="flex flex-col items-center flex-1">
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ number_format($day->total, 0) }}</div>
-                            <div class="w-full bg-blue-500 rounded-t" style="height: {{ ($day->total / $maxAmount) * 200 }}px"></div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ \Carbon\Carbon::parse($day->date)->format('M d') }}</div>
-                        </div>
-                        @endforeach
-                        @if($spendingTrend->isEmpty())
-                        <p class="text-gray-500 dark:text-gray-400 text-center w-full py-8">{{ __('messages.no_expenses') }}</p>
-                        @endif
-                    </div>
-                </div>
+                <x-spending-trend :items="$spendingTrend" :title="($period == 'this_month') ? __('messages.spending_trend_this_month') : __('messages.spending_trend_7_day')" :startRight="true" />
             </div>
 
             <!-- Top Categories -->

@@ -17,6 +17,8 @@ return [
 
     'spending_by_category' => 'Pengeluaran per Kategori',
     'spending_trend' => 'Tren Pengeluaran (7 Hari Terakhir)',
+    'spending_trend_7_day' => 'Tren Pengeluaran (7 Hari Terakhir)',
+    'spending_trend_this_month' => 'Tren Pengeluaran (Bulan Ini)',
     'recent_expenses' => 'Pengeluaran Terbaru',
     'budget_status' => 'Status Anggaran',
 

@@ -17,6 +17,8 @@ return [
 
     'spending_by_category' => 'Spending by Category',
     'spending_trend' => 'Spending Trend (Last 7 Days)',
+    'spending_trend_7_day' => 'Spending Trend (Last 7 Days)',
+    'spending_trend_this_month' => 'Spending Trend (This Month)',
     'recent_expenses' => 'Recent Expenses',
     'budget_status' => 'Budget Status',
 
@@ -91,7 +93,7 @@ return [
     'this_year' => 'This Year',
     'total_spent' => 'Total Spent',
     'average_spending' => 'Average Spending',
-    'top_category' => 'Top Category',
+    'top_category' => 'Top Categories',
     'largest_expense' => 'Largest Expense',
 
     'profile_settings' => 'Profile Settings',

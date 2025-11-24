@@ -91,7 +91,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                         {{ $expense->expense_date->format('M d, Y') }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    <td class="px-6 py-4 min-w-72 text-sm font-medium text-gray-900 dark:text-gray-100 text-ellipsis break-words">
                                         {{ $expense->title }}
                                         @if($expense->files->count() > 0)
                                         <span class="text-gray-400">📎</span>
@@ -110,22 +110,16 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                         <x-secondary-button type="button" onclick="window.location='{{ route('expenses.show', $expense) }}'">
-                                            <span class="sm:hidden"><x-heroicon-o-eye class="w-5 h-5" /></span>
-                                            <span class="hidden sm:inline md:hidden">{{ __('messages.view') }}</span>
-                                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-eye class="w-5 h-5 mr-2" />{{ __('messages.view') }}</span>
+                                            <span class="inline-flex items-center"><x-heroicon-o-eye class="w-5 h-5" /></span>
                                         </x-secondary-button>
                                         <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">
-                                            <span class="sm:hidden"><x-heroicon-o-pencil-square class="w-5 h-5" /></span>
-                                            <span class="hidden sm:inline md:hidden">{{ __('messages.edit') }}</span>
-                                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-pencil-square class="w-5 h-5 mr-2" />{{ __('messages.edit') }}</span>
+                                            <span class="inline-flex items-center"><x-heroicon-o-pencil-square class="w-5 h-5" /></span>
                                         </x-secondary-button>
                                         <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
                                             <x-danger-button type="submit">
-                                                <span class="sm:hidden"><x-heroicon-o-trash class="w-5 h-5" /></span>
-                                                <span class="hidden sm:inline md:hidden">{{ __('messages.delete') }}</span>
-                                                <span class="hidden md:inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5 mr-2" />{{ __('messages.delete') }}</span>
+                                                <span class="inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5" /></span>
                                             </x-danger-button>
                                         </form>
                                     </td>

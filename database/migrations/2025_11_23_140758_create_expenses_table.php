@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->decimal('amount', 15, 2);
+            $table->decimal('amount', 15, 2)->unsigned();
             $table->string('currency')->default('IDR');
             $table->date('expense_date');
             $table->string('payment_method')->nullable();
