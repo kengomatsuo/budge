@@ -124,4 +124,23 @@ return [
 
     'expense_title' => 'Judul Pengeluaran',
     'receipt_image' => 'Bukti/Gambar',
+
+    'english' => 'Inggris',
+    'indonesian' => 'Indonesia',
+    'usd' => 'Dolar Amerika',
+    'eur' => 'Euro',
+    'idr' => 'Rupiah Indonesia',
+    'jpy' => 'Yen Jepang',
+
+    'drag_drop' => 'atau seret dan lepas',
+    'upload_new_file' => 'Unggah file baru',
+    'view_file' => 'Lihat file',
+    'current_file' => 'File saat ini',
+    'created' => 'Dibuat',
+    'last_updated' => 'Terakhir diperbarui',
+    'file_types' => 'PNG, JPG, PDF maksimal 2MB',
+    'select_category' => 'Pilih Kategori',
+    'all_categories' => 'Semua Kategori',
+    'select_payment_method' => 'Pilih Metode Pembayaran',
+    'all_methods' => 'Semua Metode',
 ];

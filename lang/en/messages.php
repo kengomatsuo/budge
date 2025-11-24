@@ -124,4 +124,23 @@ return [
 
     'expense_title' => 'Expense Title',
     'receipt_image' => 'Receipt/Image',
+
+    'english' => 'English',
+    'indonesian' => 'Indonesian',
+    'usd' => 'US Dollar',
+    'eur' => 'Euro',
+    'idr' => 'Indonesian Rupiah',
+    'jpy' => 'Japanese Yen',
+
+    'drag_drop' => 'or drag and drop',
+    'upload_new_file' => 'Upload new file',
+    'view_file' => 'View file',
+    'current_file' => 'Current file',
+    'created' => 'Created',
+    'last_updated' => 'Last updated',
+    'file_types' => 'PNG, JPG, PDF up to 2MB',
+    'select_category' => 'Select Category',
+    'all_categories' => 'All Categories',
+    'select_payment_method' => 'Select Payment Method',
+    'all_methods' => 'All Methods',
 ];

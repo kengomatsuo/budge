@@ -54,10 +54,11 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0.01',
+            'currency' => 'required|in:USD,EUR,IDR,JPY',
             'category_id' => 'required|exists:categories,id',
-            'expense_date' => 'required|date',
-            'payment_method' => 'nullable|string',
+            'expense_date' => 'required|date|before_or_equal:today',
+            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet',
             'receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
@@ -103,10 +104,11 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0.01',
+            'currency' => 'required|in:USD,EUR,IDR,JPY',
             'category_id' => 'required|exists:categories,id',
-            'expense_date' => 'required|date',
-            'payment_method' => 'nullable|string',
+            'expense_date' => 'required|date|before_or_equal:today',
+            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet',
             'receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 

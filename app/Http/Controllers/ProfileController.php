@@ -28,6 +28,19 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        // Handle additional profile fields
+        if ($request->has('phone')) {
+            $request->user()->phone = $request->phone;
+        }
+        if ($request->has('preferred_language')) {
+            $request->user()->preferred_language = $request->preferred_language;
+            app()->setLocale($request->preferred_language);
+            session(['locale' => $request->preferred_language]);
+        }
+        if ($request->has('preferred_currency')) {
+            $request->user()->preferred_currency = $request->preferred_currency;
+        }
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }

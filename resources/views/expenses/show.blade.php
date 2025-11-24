@@ -66,23 +66,23 @@
                                 <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{{ __('messages.receipt_image') }}</label>
                                 @php
                                     $file = $expense->files->first();
-                                    $extension = strtolower(pathinfo($file->original_filename, PATHINFO_EXTENSION));
+                                    $extension = strtolower(pathinfo($file->file_name, PATHINFO_EXTENSION));
                                 @endphp
 
                                 @if(in_array($extension, ['jpg', 'jpeg', 'png']))
                                 <div class="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                                    <img src="{{ Storage::url($file->file_path) }}" alt="{{ $expense->title }}" class="w-full h-auto">
+                                    <img src="{{ asset('storage/' . $file->file_path) }}" alt="{{ $expense->title }}" class="w-full h-auto">
                                 </div>
                                 @elseif($extension === 'pdf')
                                 <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center bg-gray-50 dark:bg-gray-700">
                                     <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                     </svg>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $file->original_filename }}</p>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $file->file_name }}</p>
                                 </div>
                                 @endif
 
-                                <a href="{{ Storage::url($file->file_path) }}" download="{{ $file->original_filename }}" class="mt-3 block w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded text-center">
+                                <a href="{{ asset('storage/' . $file->file_path) }}" download="{{ $file->file_name }}" class="mt-3 block w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded text-center">
                                     <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                     </svg>
@@ -102,9 +102,9 @@
 
                     <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                         <p class="text-sm text-gray-500 dark:text-gray-400">
-                            Created: {{ $expense->created_at->format('F d, Y h:i A') }}
+                            {{ __('messages.created') }}: {{ $expense->created_at->format('F d, Y h:i A') }}
                             @if($expense->updated_at->ne($expense->created_at))
-                            <br>Last updated: {{ $expense->updated_at->format('F d, Y h:i A') }}
+                            <br>{{ __('messages.last_updated') }}: {{ $expense->updated_at->format('F d, Y h:i A') }}
                             @endif
                         </p>
                     </div>

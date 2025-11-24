@@ -9,8 +9,7 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('expenses.update', $expense) }}" enctype="multipart/form-data" class="space-y-6"
-                          x-data="{ files: [], fileName: '{{ $expense->files->first()?->original_filename ?? '' }}' }">
+                    <form method="POST" action="{{ route('expenses.update', $expense) }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         @method('PUT')
 
@@ -25,14 +24,23 @@
 
                         <div>
                             <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.amount') }} *</label>
-                            <div class="mt-1 flex">
-                                <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm">
-                                    {{ auth()->user()->preferred_currency }}
-                                </span>
-                                <input type="number" name="amount" id="amount" step="0.01" min="0" value="{{ old('amount', $expense->amount) }}" required
-                                    class="flex-1 rounded-none rounded-r-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
-                            </div>
+                            <input type="number" name="amount" id="amount" step="0.01" min="0.01" value="{{ old('amount', $expense->amount) }}" required
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                             @error('amount')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="currency" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.currency') }} *</label>
+                            <select name="currency" id="currency" required
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                <option value="USD" {{ old('currency', $expense->currency) === 'USD' ? 'selected' : '' }}>USD ($)</option>
+                                <option value="EUR" {{ old('currency', $expense->currency) === 'EUR' ? 'selected' : '' }}>EUR (€)</option>
+                                <option value="IDR" {{ old('currency', $expense->currency) === 'IDR' ? 'selected' : '' }}>IDR (Rp)</option>
+                                <option value="JPY" {{ old('currency', $expense->currency) === 'JPY' ? 'selected' : '' }}>JPY (¥)</option>
+                            </select>
+                            @error('currency')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
@@ -55,7 +63,7 @@
 
                         <div>
                             <label for="expense_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.expense_date') }} *</label>
-                            <input type="date" name="expense_date" id="expense_date" value="{{ old('expense_date', $expense->expense_date->format('Y-m-d')) }}" required
+                            <input type="date" name="expense_date" id="expense_date" max="{{ date('Y-m-d') }}" value="{{ old('expense_date', $expense->expense_date->format('Y-m-d')) }}" required
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                             @error('expense_date')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -85,40 +93,63 @@
                             @enderror
                         </div>
 
-                        <div>
+                        <div x-data="{ fileName: '{{ $expense->files->first()?->original_filename ?? '' }}', imagePreview: null }">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('messages.receipt_image') }}</label>
-                            @if($expense->files->first())
-                            <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Current file: {{ $expense->files->first()->original_filename }}</p>
-                                <a href="{{ Storage::url($expense->files->first()->file_path) }}" target="_blank" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm">View file</a>
-                            </div>
-                            @endif
-
                             <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md"
-                                 @drop.prevent="files = $event.dataTransfer.files; fileName = files[0]?.name"
+                                 @drop.prevent="
+                                    let file = $event.dataTransfer.files[0];
+                                    fileName = file?.name;
+                                    if (file && file.type.startsWith('image/')) {
+                                        let reader = new FileReader();
+                                        reader.onload = (e) => imagePreview = e.target.result;
+                                        reader.readAsDataURL(file);
+                                    }
+                                 "
                                  @dragover.prevent>
-                                <div class="space-y-1 text-center">
+                                <div class="space-y-1 text-center" x-show="!imagePreview">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                     <div class="flex text-sm text-gray-600 dark:text-gray-400">
                                         <label for="receipt" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus-within:outline-none">
-                                            <span>Upload new file</span>
+                                            <span>{{ __('messages.upload_new_file') }}</span>
                                             <input id="receipt" name="receipt" type="file" class="sr-only" accept=".jpg,.jpeg,.png,.pdf"
-                                                   @change="files = $event.target.files; fileName = files[0]?.name">
+                                                @change="
+                                                    fileName = $event.target.files[0]?.name;
+                                                    let file = $event.target.files[0];
+                                                    if (file && file.type.startsWith('image/')) {
+                                                        let reader = new FileReader();
+                                                        reader.onload = (e) => imagePreview = e.target.result;
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                ">
                                         </label>
-                                        <p class="pl-1">or drag and drop</p>
+                                        <p class="pl-1">{{ __('messages.drag_drop') }}</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, PDF up to 2MB</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('messages.file_types') }}</p>
                                     <p x-show="fileName" x-text="fileName" class="text-sm font-medium text-gray-900 dark:text-gray-100 mt-2"></p>
+                                    @if($expense->files->first())
+                                        @php
+                                            $file = $expense->files->first();
+                                            $extension = strtolower(pathinfo($file->file_name, PATHINFO_EXTENSION));
+                                        @endphp
+                                        @if(in_array($extension, ['jpg', 'jpeg', 'png']))
+                                            <img src="{{ asset('storage/' . $file->file_path) }}" alt="{{ $expense->title }}" class="mt-2 max-h-64 mx-auto rounded border border-gray-300 dark:border-gray-600">
+                                        @endif
+                                    @endif
+                                </div>
+
+                                <div x-show="imagePreview" class="relative">
+                                    <img :src="imagePreview" class="max-h-64 mx-auto rounded" alt="Preview">
+                                    <button type="button" @click="imagePreview = null; fileName = '{{ $expense->files->first()?->file_name ?? '' }}'; document.getElementById('receipt').value = ''" class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-2 hover:bg-red-700">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
-                            @error('receipt')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="flex justify-between">
+                            <x-input-error class="mt-2" :messages="$errors->get('receipt')" />
+                        </div>                        <div class="flex justify-between">
                             <button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">
                                 {{ __('messages.delete') }}
                             </button>
