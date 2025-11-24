@@ -17,7 +17,8 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+            <x-primary-button class="inline-flex items-center">
+                <x-heroicon-o-check class="w-5 h-5 mr-2" />
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
         </div>

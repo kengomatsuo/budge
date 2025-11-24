@@ -7,6 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="flex items-center gap-2">
+                <x-heroicon-o-chart-pie class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.expense_reports') }}</h3>
+            </div>
 
             <!-- Filter Section -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">

@@ -100,7 +100,10 @@
                         <!-- Action Buttons -->
                         <div class="flex justify-end space-x-3">
                             <x-secondary-button type="button" onclick="window.location='{{ route('budgets.index') }}'">{{ __('messages.cancel') }}</x-secondary-button>
-                            <x-primary-button type="submit">{{ __('messages.save') }}</x-primary-button>
+                            <x-primary-button type="submit" class="inline-flex items-center">
+                                <x-heroicon-o-check class="w-5 h-5 mr-2" />
+                                {{ __('messages.save') }}
+                            </x-primary-button>
                         </div>
 
                     </form>

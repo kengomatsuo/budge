@@ -101,7 +101,10 @@
                             <x-danger-button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }">{{ __('messages.delete') }}</x-danger-button>
                             <div class="flex space-x-3">
                                 <x-secondary-button type="button" onclick="window.location='{{ route('budgets.index') }}'">{{ __('messages.cancel') }}</x-secondary-button>
-                                <x-primary-button type="submit">{{ __('messages.update') }}</x-primary-button>
+                                <x-primary-button type="submit" class="inline-flex items-center">
+                                    <x-heroicon-o-check class="w-5 h-5 mr-2" />
+                                    {{ __('messages.update') }}
+                                </x-primary-button>
                             </div>
                         </div>
 

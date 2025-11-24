@@ -14,13 +14,15 @@
             </div>
             @endif
 
-            <div class="mb-6">
-                <x-primary-button onclick="window.location='{{ route('budgets.create') }}'">
-                    {{ __('messages.set_new_budget') }}
-                </x-primary-button>
-            </div>
-
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="flex justify-end mb-4">
+                    <x-primary-button onclick="window.location='{{ route('budgets.create') }}'" class="inline-flex items-center">
+                        <x-heroicon-o-plus class="w-5 h-5 mr-2" />
+                        {{ __('messages.set_new_budget') }}
+                    </x-primary-button>
+                </div>
+
+            <div>
                 <div>
                     @if($budgets->count() > 0)
                     <div class="space-y-6">
@@ -43,14 +45,16 @@
                                         </div>
                                     </div>
                                     <div class="flex space-x-2">
-                                        <a href="{{ route('budgets.edit', $budget) }}" class="text-blue-600 hover:text-blue-800 dark:text-blue-400">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                        </a>
+                                        <x-secondary-button :href="route('budgets.edit', $budget)" class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400">
+                                            <span class="sm:hidden"><x-heroicon-o-pencil class="w-5 h-5" /></span>
+                                            <span class="hidden sm:inline md:hidden">{{ __('messages.edit') }}</span>
+                                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-pencil class="w-5 h-5 mr-2" />{{ __('messages.edit') }}</span>
+                                        </x-secondary-button>
                                         <form method="POST" action="{{ route('budgets.destroy', $budget) }}" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
                                             <x-danger-button type="submit" class="p-2">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                <x-heroicon-o-trash class="w-5 h-5" />
                                             </x-danger-button>
                                         </form>
                                     </div>

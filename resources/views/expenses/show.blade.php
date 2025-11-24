@@ -18,8 +18,15 @@
                             </p>
                         </div>
                         <div class="flex space-x-2">
-                            <x-primary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">{{ __('messages.edit') }}</x-primary-button>
-                            <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">{{ __('messages.back') }}</x-secondary-button>
+                            <x-primary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'" class="inline-flex items-center">
+                                <x-heroicon-o-pencil class="w-5 h-5 mr-2" />
+                                {{ __('messages.edit') }}
+                            </x-primary-button>
+                            <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">
+                                <span class="sm:hidden"><x-heroicon-o-arrow-left class="w-5 h-5" /></span>
+                                <span class="hidden sm:inline md:hidden">{{ __('messages.back') }}</span>
+                                <span class="hidden md:inline-flex items-center"><x-heroicon-o-arrow-left class="w-5 h-5 mr-2" />{{ __('messages.back') }}</span>
+                            </x-secondary-button>
                         </div>
                     </div>
 
@@ -71,25 +78,19 @@
                                 </div>
                                 @elseif($extension === 'pdf')
                                 <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center bg-gray-50 dark:bg-gray-700">
-                                    <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
+                                    <x-heroicon-o-document-text class="mx-auto h-16 w-16 text-gray-400" />
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{{ $file->file_name }}</p>
                                 </div>
                                 @endif
 
-                                <x-primary-button :href="asset('storage/' . $file->file_path)" download="{{ $file->file_name }}" class="mt-3 w-full text-center">
-                                    <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
+                                <a href="{{ asset('storage/' . $file->file_path) }}" download="{{ $file->file_name }}" class="mt-3 w-full text-center inline-flex items-center justify-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                    <x-heroicon-o-arrow-down-tray class="w-5 h-5 mr-2" />
                                     {{ __('messages.download') }}
-                                </x-primary-button>
+                                </a>
                             </div>
                             @else
                             <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center bg-gray-50 dark:bg-gray-700">
-                                <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
+                                <x-heroicon-o-document class="mx-auto h-16 w-16 text-gray-400" />
                                 <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('messages.no_receipt') }}</p>
                             </div>
                             @endif

@@ -95,10 +95,21 @@
 
                         <x-file-upload :existing-file="$expense->files->first() ?? null" :file-name="$expense->files->first()?->file_name ?? ''" />
                         <div class="flex justify-between">
-                            <x-danger-button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }">{{ __('messages.delete') }}</x-danger-button>
+                            <x-danger-button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }">
+                                <span class="sm:hidden"><x-heroicon-o-trash class="w-5 h-5" /></span>
+                                <span class="hidden sm:inline md:hidden">{{ __('messages.delete') }}</span>
+                                <span class="hidden md:inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5 mr-2" />{{ __('messages.delete') }}</span>
+                            </x-danger-button>
                             <div class="flex space-x-3">
-                                <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">{{ __('messages.cancel') }}</x-secondary-button>
-                                <x-primary-button type="submit">{{ __('messages.update') }}</x-primary-button>
+                                <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">
+                                    <span class="sm:hidden"><x-heroicon-o-x-mark class="w-5 h-5" /></span>
+                                    <span class="hidden sm:inline md:hidden">{{ __('messages.cancel') }}</span>
+                                    <span class="hidden md:inline-flex items-center"><x-heroicon-o-x-mark class="w-5 h-5 mr-2" />{{ __('messages.cancel') }}</span>
+                                </x-secondary-button>
+                                <x-primary-button type="submit" class="inline-flex items-center">
+                                    <x-heroicon-o-check class="w-5 h-5 mr-2" />
+                                    {{ __('messages.update') }}
+                                </x-primary-button>
                             </div>
                         </div>
 

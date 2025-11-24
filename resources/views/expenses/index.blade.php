@@ -49,15 +49,15 @@
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('messages.search') }}" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                     </div>
                     <div class="md:col-span-5 flex flex-wrap gap-4">
-                        <x-primary-button type="submit">
+                        <x-primary-button type="submit" class="inline-flex items-center">
+                            <x-heroicon-o-adjustments-horizontal class="w-5 h-5 mr-2" />
                             {{ __('messages.apply_filters') }}
                         </x-primary-button>
                         <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">
-                            {{ __('messages.clear_filters') }}
+                            <span class="sm:hidden"><x-heroicon-o-x-mark class="w-5 h-5" /></span>
+                            <span class="hidden sm:inline md:hidden">{{ __('messages.clear_filters') }}</span>
+                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-x-mark class="w-5 h-5 mr-2" />{{ __('messages.clear_filters') }}</span>
                         </x-secondary-button>
-                        <x-primary-button type="button" onclick="window.location='{{ route('expenses.create') }}'" class="ml-auto">
-                            {{ __('messages.add_expense') }}
-                        </x-primary-button>
                     </div>
                 </form>
             </div>
@@ -65,6 +65,13 @@
             <!-- Expenses Table -->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div>
+                    <div class="mb-4 flex">
+                        <x-primary-button type="button" onclick="window.location='{{ route('expenses.create') }}'" class="ml-auto inline-flex items-center">
+                            <x-heroicon-o-plus class="w-5 h-5 mr-2" />
+                            {{ __('messages.add_expense') }}
+                        </x-primary-button>
+                    </div>
+
                     @if($expenses->count() > 0)
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -102,12 +109,24 @@
                                         {{ $expense->payment_method ? __('messages.' . $expense->payment_method) : '-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.show', $expense) }}'">{{ __('messages.view') }}</x-secondary-button>
-                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">{{ __('messages.edit') }}</x-secondary-button>
+                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.show', $expense) }}'">
+                                            <span class="sm:hidden"><x-heroicon-o-eye class="w-5 h-5" /></span>
+                                            <span class="hidden sm:inline md:hidden">{{ __('messages.view') }}</span>
+                                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-eye class="w-5 h-5 mr-2" />{{ __('messages.view') }}</span>
+                                        </x-secondary-button>
+                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">
+                                            <span class="sm:hidden"><x-heroicon-o-pencil-square class="w-5 h-5" /></span>
+                                            <span class="hidden sm:inline md:hidden">{{ __('messages.edit') }}</span>
+                                            <span class="hidden md:inline-flex items-center"><x-heroicon-o-pencil-square class="w-5 h-5 mr-2" />{{ __('messages.edit') }}</span>
+                                        </x-secondary-button>
                                         <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
-                                            <x-danger-button type="submit">{{ __('messages.delete') }}</x-danger-button>
+                                            <x-danger-button type="submit">
+                                                <span class="sm:hidden"><x-heroicon-o-trash class="w-5 h-5" /></span>
+                                                <span class="hidden sm:inline md:hidden">{{ __('messages.delete') }}</span>
+                                                <span class="hidden md:inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5 mr-2" />{{ __('messages.delete') }}</span>
+                                            </x-danger-button>
                                         </form>
                                     </td>
                                 </tr>
