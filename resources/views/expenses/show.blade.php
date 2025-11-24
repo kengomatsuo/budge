@@ -18,12 +18,8 @@
                             </p>
                         </div>
                         <div class="flex space-x-2">
-                            <a href="{{ route('expenses.edit', $expense) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded inline-block">
-                                {{ __('messages.edit') }}
-                            </a>
-                            <a href="{{ route('expenses.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded inline-block">
-                                {{ __('messages.back') }}
-                            </a>
+                            <x-primary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">{{ __('messages.edit') }}</x-primary-button>
+                            <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">{{ __('messages.back') }}</x-secondary-button>
                         </div>
                     </div>
 
@@ -82,12 +78,12 @@
                                 </div>
                                 @endif
 
-                                <a href="{{ asset('storage/' . $file->file_path) }}" download="{{ $file->file_name }}" class="mt-3 block w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded text-center">
+                                <x-primary-button :href="asset('storage/' . $file->file_path)" download="{{ $file->file_name }}" class="mt-3 w-full text-center">
                                     <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                     </svg>
                                     {{ __('messages.download') }}
-                                </a>
+                                </x-primary-button>
                             </div>
                             @else
                             <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center bg-gray-50 dark:bg-gray-700">

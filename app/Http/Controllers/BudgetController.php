@@ -48,8 +48,8 @@ class BudgetController extends Controller
             'category_id' => 'required|exists:categories,id',
             'amount' => 'required|numeric|min:0',
             'period_type' => 'required|in:daily,weekly,monthly',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -75,8 +75,8 @@ class BudgetController extends Controller
             'category_id' => 'required|exists:categories,id',
             'amount' => 'required|numeric|min:0',
             'period_type' => 'required|in:daily,weekly,monthly',
-            'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         $budget->update($validated);

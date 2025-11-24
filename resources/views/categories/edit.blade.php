@@ -48,18 +48,12 @@
                         <div class="flex justify-between">
                             <div>
                                 @if(!$category->is_default)
-                                <button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded">
-                                    {{ __('messages.delete') }}
-                                </button>
+                                <x-danger-button type="button" onclick="if(confirm('{{ __('messages.confirm_delete') }}')) { document.getElementById('delete-form').submit(); }">{{ __('messages.delete') }}</x-danger-button>
                                 @endif
                             </div>
                             <div class="flex space-x-3">
-                                <a href="{{ route('categories.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded inline-block">
-                                    {{ __('messages.cancel') }}
-                                </a>
-                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
-                                    {{ __('messages.update') }}
-                                </button>
+                                <x-secondary-button type="button" onclick="window.location='{{ route('categories.index') }}'">{{ __('messages.cancel') }}</x-secondary-button>
+                                <x-primary-button type="submit">{{ __('messages.update') }}</x-primary-button>
                             </div>
                         </div>
 

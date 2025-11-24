@@ -42,12 +42,25 @@ class DashboardController extends Controller
             ->groupBy('categories.id', 'categories.name', 'categories.color')
             ->get();
 
-        $spendingTrend = Expense::selectRaw('DATE(expense_date) as date, SUM(amount) as total')
+        // Build 7-day trend, always showing last 7 days
+        $trendStart = $now->copy()->subDays(6)->startOfDay();
+        $trendEnd = $now->copy()->endOfDay();
+        $rawTrend = Expense::selectRaw('DATE(expense_date) as date, SUM(amount) as total')
             ->where('user_id', $user->id)
-            ->whereBetween('expense_date', [$now->copy()->subDays(6), $now])
+            ->whereBetween('expense_date', [$trendStart, $trendEnd])
             ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get()
+            ->keyBy('date');
+
+        $spendingTrend = collect();
+        for ($i = 0; $i < 7; $i++) {
+            $date = $trendStart->copy()->addDays($i)->format('Y-m-d');
+            $spendingTrend->push((object) [
+                'date' => $date,
+                'total' => isset($rawTrend[$date]) ? $rawTrend[$date]->total : 0,
+            ]);
+        }
 
         $recentExpenses = Expense::with('category')
             ->where('user_id', $user->id)

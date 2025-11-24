@@ -102,12 +102,12 @@
                                         {{ $expense->payment_method ? __('messages.' . $expense->payment_method) : '-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                        <a href="{{ route('expenses.show', $expense) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">{{ __('messages.view') }}</a>
-                                        <a href="{{ route('expenses.edit', $expense) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400">{{ __('messages.edit') }}</a>
+                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.show', $expense) }}'">{{ __('messages.view') }}</x-secondary-button>
+                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">{{ __('messages.edit') }}</x-secondary-button>
                                         <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400">{{ __('messages.delete') }}</button>
+                                            <x-danger-button type="submit">{{ __('messages.delete') }}</x-danger-button>
                                         </form>
                                     </td>
                                 </tr>

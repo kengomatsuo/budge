@@ -10,8 +10,9 @@
                 {{ number_format($day->total, 0) }}
             </div>
             <div class="w-full bg-indigo-600 dark:bg-indigo-500 rounded-t" style="height: {{ ($day->total / $maxAmount) * 200 }}px"></div>
-            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                {{ \Carbon\Carbon::parse($day->date)->format('M d') }}
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2 flex flex-col lg:flex-row lg:space-x-1 items-center justify-center">
+                <span>{{ \Carbon\Carbon::parse($day->date)->format('M') }}</span>
+                <span class="lg:inline block">{{ \Carbon\Carbon::parse($day->date)->format('d') }}</span>
             </div>
         </div>
         @empty
