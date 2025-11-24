@@ -47,6 +47,32 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="phone" :value="__('messages.phone')" />
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="preferred_language" :value="__('messages.language')" />
+            <select id="preferred_language" name="preferred_language" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="en" {{ old('preferred_language', $user->preferred_language) === 'en' ? 'selected' : '' }}>English</option>
+                <option value="id" {{ old('preferred_language', $user->preferred_language) === 'id' ? 'selected' : '' }}>Bahasa Indonesia</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('preferred_language')" />
+        </div>
+
+        <div>
+            <x-input-label for="preferred_currency" :value="__('messages.currency')" />
+            <select id="preferred_currency" name="preferred_currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="USD" {{ old('preferred_currency', $user->preferred_currency) === 'USD' ? 'selected' : '' }}>USD ($)</option>
+                <option value="EUR" {{ old('preferred_currency', $user->preferred_currency) === 'EUR' ? 'selected' : '' }}>EUR (€)</option>
+                <option value="IDR" {{ old('preferred_currency', $user->preferred_currency) === 'IDR' ? 'selected' : '' }}>IDR (Rp)</option>
+                <option value="JPY" {{ old('preferred_currency', $user->preferred_currency) === 'JPY' ? 'selected' : '' }}>JPY (¥)</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('preferred_currency')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
