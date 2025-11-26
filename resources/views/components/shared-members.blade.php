@@ -24,7 +24,7 @@
                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
 
             <div x-show="suggestions.length > 0" x-transition
-                class="absolute left-0 right-0 mt-1 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 shadow max-h-48 overflow-auto z-50">
+                class="absolute left-0 right-0 w-full mt-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 shadow max-h-48 overflow-auto z-50">
                 <template x-for="(user, index) in suggestions" :key="user.id">
                     <div @click="addUser(user)" @mouseenter="focusIndex = index" @mouseleave="focusIndex = -1"
                         :class="{ 'bg-indigo-50 dark:bg-indigo-600 text-indigo-700 dark:text-white': focusIndex === index }"
