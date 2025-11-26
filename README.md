@@ -1,29 +1,17 @@
-Dear Mahasiswa/i
+# Install PHP dependencies
+composer install
 
-Deskripsi Umum : 
-Mahasiswa membuat sebuah aplikasi web menggunakan Laravel yang menyelesaikan suatu masalah nyata dengan tema
+# Install Node.js dependencies
+npm install
 
-1. Solusi untuk dosen,
-2. Solusi keuangan,
-3. Solusi kesehatan. 
+# Build frontend assets (or use 'npm run dev' for development)
+npm run build
 
-Mahasiswa bebas memilih topik, namun harus mengikuti struktur fitur minimal yang telah ditentukan.
+# Run database migrations
+php artisan migrate --seed
 
-Silahkan Laporkan:
-1. tema yang kalian pilih dan idenya
-2. Judul dan ide aplikasi yang akan dibuat
-3. Penjelasan mengenai Ide Fitur Aplikasi
-4. Pembagian Tugas (harus ada peran Quality Assurance)
+# Link storage for file uploads (receipts)
+php artisan storage:link
 
-4 Fitur minimal yang wajib di implementasikan : 
-1. Autentikasi
-2. CRUD Utama
-3. Upload File
-4. Localization
-
-Tugas Kelompok 1 tediri dari 4 Orang
-
-Deadline 26 November 2025 Jam 23:59
-
-Best Regards,
-Anderies
+# Start the Laravel development server
+php artisan serve
