@@ -1,17 +1,40 @@
-# Install PHP dependencies
+# Expense Tracker Setup
+
+Follow these steps to set up and run the application:
+
+## 1. Install PHP dependencies
+```bash
 composer install
+```
 
-# Install Node.js dependencies
+## 2. Install Node.js dependencies
+```bash
 npm install
+```
 
-# Build frontend assets (or use 'npm run dev' for development)
+## 3. Build frontend assets
+For production:
+```bash
 npm run build
+```
+For development (hot reload):
+```bash
+npm run dev
+```
 
-# Run database migrations
+## 4. Run database migrations and seed data
+```bash
 php artisan migrate --seed
+```
 
-# Link storage for file uploads (receipts)
+## 5. Link storage for file uploads (receipts)
+```bash
 php artisan storage:link
+```
 
-# Start the Laravel development server
+## 6. Start the Laravel development server
+```bash
 php artisan serve
+```
+
+The application will be available at [http://localhost:8000](http://localhost:8000).
