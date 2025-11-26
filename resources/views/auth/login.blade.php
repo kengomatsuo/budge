@@ -2,8 +2,9 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" novalidate>
         @csrf
+        <x-form-errors class="mb-4" />
 
         <!-- Email Address -->
         <div>

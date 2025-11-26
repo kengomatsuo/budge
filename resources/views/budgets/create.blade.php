@@ -9,8 +9,9 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('budgets.store') }}" class="space-y-6">
+                    <form method="POST" action="{{ route('budgets.store') }}" class="space-y-6" novalidate>
                         @csrf
+                        <x-form-errors class="mb-4" />
 
                         <!-- Category -->
                         <div>

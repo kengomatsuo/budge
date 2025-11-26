@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2)->unsigned();
             $table->string('currency')->default('IDR');
             $table->date('expense_date');
-            $table->string('payment_method')->nullable();
+            $table->string('payment_method');
             $table->boolean('is_shared')->default(false);
             $table->timestamps();
         });

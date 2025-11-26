@@ -6,15 +6,17 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl mx-auto">
-                    <form method="POST" action="{{ route('expenses.store') }}" enctype="multipart/form-data" class="space-y-6">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('expenses.store') }}" enctype="multipart/form-data" class="space-y-6" x-data="{ isShared: {{ old('is_shared') ? 'true' : 'false' }} }" novalidate>
                         @csrf
+
+                        <x-form-errors />
 
                         <!-- Title -->
                         <div>
-                            <x-input-label for="title" :value="__('messages.title')" />
+                            <x-input-label for="title" :value="__('messages.title') . ' *'" />
                             <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title')" required />
                             <x-input-error class="mt-2" :messages="$errors->get('title')" />
                         </div>
@@ -30,12 +32,12 @@
                         <!-- Amount and Currency -->
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <x-input-label for="amount" :value="__('messages.amount')" />
+                                <x-input-label for="amount" :value="__('messages.amount') . ' *'" />
                                 <x-text-input id="amount" name="amount" type="number" step="0.01" min="0.01" class="mt-1 block w-full" :value="old('amount')" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('amount')" />
                             </div>
                             <div>
-                                <x-input-label for="currency" :value="__('messages.currency')" />
+                                <x-input-label for="currency" :value="__('messages.currency') . ' *'" />
                                 <select id="currency" name="currency" required class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                     <option value="USD" {{ old('currency', auth()->user()->preferred_currency) === 'USD' ? 'selected' : '' }}>USD ($)</option>
                                     <option value="EUR" {{ old('currency', auth()->user()->preferred_currency) === 'EUR' ? 'selected' : '' }}>EUR (€)</option>
@@ -48,14 +50,14 @@
 
                         <!-- Expense Date -->
                         <div>
-                            <x-input-label for="expense_date" :value="__('messages.expense_date')" />
+                            <x-input-label for="expense_date" :value="__('messages.expense_date') . ' *'" />
                             <x-text-input id="expense_date" name="expense_date" type="date" max="{{ date('Y-m-d') }}" class="mt-1 block w-full" :value="old('expense_date', date('Y-m-d'))" required />
                             <x-input-error class="mt-2" :messages="$errors->get('expense_date')" />
                         </div>
 
                         <!-- Category -->
                         <div>
-                            <x-input-label for="category_id" :value="__('messages.category')" />
+                            <x-input-label for="category_id" :value="__('messages.category') . ' *'" />
                             <select name="category_id" id="category_id" required
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                                 <option value="">{{ __('messages.category') }}</option>
@@ -65,14 +67,12 @@
                                 </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
                         </div>
 
                         <!-- Payment Method -->
                         <div>
-                            <label for="payment_method" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.payment_method') }}</label>
+                            <x-input-label for="payment_method" :value="__('messages.payment_method') . ' *'" />
                             <select name="payment_method" id="payment_method"
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                                 <option value="">{{ __('messages.payment_method') }}</option>
@@ -81,9 +81,21 @@
                                 <option value="credit_card" {{ old('payment_method') == 'credit_card' ? 'selected' : '' }}>{{ __('messages.credit_card') }}</option>
                                 <option value="e_wallet" {{ old('payment_method') == 'e_wallet' ? 'selected' : '' }}>{{ __('messages.e_wallet') }}</option>
                             </select>
-                            @error('payment_method')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <x-input-error class="mt-2" :messages="$errors->get('payment_method')" />
+                        </div>
+
+                        <!-- Split / Shared Expense -->
+                        <div class="mt-4">
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_expense') }}</span>
+                            </label>
+                        </div>
+
+                        <div x-show="isShared" x-cloak class="mt-4">
+                            <x-shared-members :users="$users" :selected="old('shared_users', [])" :expenseAmount="old('amount', 0)" :initialSplits="old('shared_splits', [])" />
+                            <x-input-error class="mt-2" :messages="$errors->get('shared_users')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('shared_splits')" />
                         </div>
 
                         <!-- Receipt Upload -->

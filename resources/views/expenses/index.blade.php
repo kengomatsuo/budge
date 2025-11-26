@@ -8,11 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if(session('success'))
-            <div class="p-4 sm:p-8 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg">
-                {{ session('success') }}
-            </div>
-            @endif
+            {{-- Success messages are shown as global toast in the layout --}}
 
             <!-- Filter Section -->
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg mb-6">
@@ -96,6 +92,9 @@
                                         @if($expense->files->count() > 0)
                                         <span class="text-gray-400">📎</span>
                                         @endif
+                                        @if($expense->is_shared)
+                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium text-white" style="background-color:#6B7280">Shared</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-white" style="background-color: {{ $expense->category->color ?? '#3B82F6' }}">
@@ -130,7 +129,7 @@
                     </div>
 
                     <div class="mt-4">
-                        {{ $expenses->links() }}
+                        {{ $expenses->onEachSide(1)->links() }}
                     </div>
                     @else
                     <p class="text-gray-500 dark:text-gray-400 text-center py-8">{{ __('messages.no_expenses') }}</p>

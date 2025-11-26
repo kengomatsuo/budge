@@ -8,11 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if(session('success'))
-            <div class="p-4 sm:p-8 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg">
-                {{ session('success') }}
-            </div>
-            @endif
+            {{-- Success messages are shown as global toast in the layout --}}
 
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="flex justify-end mb-4">

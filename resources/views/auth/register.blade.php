@@ -1,6 +1,7 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" novalidate>
         @csrf
+        <x-form-errors class="mb-4" />
 
         <!-- Name -->
         <div>

@@ -8,11 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if(session('success'))
-            <div class="p-4 sm:p-8 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg">
-                {{ session('success') }}
-            </div>
-            @endif
+            {{-- Success messages are shown as global toast in the layout --}}
 
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="flex justify-end mb-4">
@@ -45,7 +41,7 @@
                                         </div>
                                     </div>
                                     <div class="flex space-x-2">
-                                        <x-secondary-button :href="route('budgets.edit', $budget)" class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400">
+                                        <x-secondary-button type="button" onclick="window.location='{{ route('budgets.edit', $budget) }}'" class="inline-flex items-center px-2 py-1 text-blue-600 dark:text-blue-400">
                                             <span class="sm:hidden"><x-heroicon-o-pencil class="w-5 h-5" /></span>
                                             <span class="hidden sm:inline md:hidden">{{ __('messages.edit') }}</span>
                                             <span class="hidden md:inline-flex items-center"><x-heroicon-o-pencil class="w-5 h-5 mr-2" />{{ __('messages.edit') }}</span>

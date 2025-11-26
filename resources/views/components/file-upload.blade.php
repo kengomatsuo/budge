@@ -1,6 +1,5 @@
 <div x-data="{ fileName: '{{ $fileName ?? '' }}', imagePreview: null }">
     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ $label ?? __('messages.receipt_image') }}</label>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Accepted formats: JPG, PNG, PDF.</p>
     <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md"
          @drop.prevent="
             let file = $event.dataTransfer.files[0];

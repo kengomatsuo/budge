@@ -9,9 +9,11 @@
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('expenses.update', $expense) }}" enctype="multipart/form-data" class="space-y-6">
+                    <form method="POST" action="{{ route('expenses.update', $expense) }}" enctype="multipart/form-data" class="space-y-6" x-data="{ isShared: {{ old('is_shared', $expense->is_shared) ? 'true' : 'false' }} }" novalidate>
                         @csrf
                         @method('PUT')
+
+                        <x-form-errors />
 
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.expense_title') }} *</label>
@@ -71,7 +73,7 @@
                         </div>
 
                         <div>
-                            <label for="payment_method" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.payment_method') }}</label>
+                            <label for="payment_method" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.payment_method') }} *</label>
                             <select name="payment_method" id="payment_method"
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                                 <option value="cash" {{ old('payment_method', $expense->payment_method) == 'cash' ? 'selected' : '' }}>{{ __('messages.cash') }}</option>
@@ -91,6 +93,19 @@
                             @error('description')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_shared', $expense->is_shared) ? 'checked' : '' }}>
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_expense') }}</span>
+                            </label>
+                        </div>
+
+                        <div x-show="isShared" x-cloak class="mt-4">
+                            <x-shared-members :users="$users" :selected="old('shared_users', $selected ?? [])" :expenseAmount="old('amount', $expense->amount)" :initialSplits="old('shared_splits', [])" />
+                            <x-input-error class="mt-2" :messages="$errors->get('shared_users')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('shared_splits')" />
                         </div>
 
                         <x-file-upload :existing-file="$expense->files->first() ?? null" :file-name="$expense->files->first()?->file_name ?? ''" />

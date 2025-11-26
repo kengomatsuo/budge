@@ -55,6 +55,29 @@
                                 </p>
                             </div>
 
+                            @if($expense->is_shared)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.split_expense') }}</label>
+                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{ __('messages.shared') ?? 'Shared' }}</p>
+                                @if($expense->sharedMembers->count() > 0)
+                                <ul class="mt-2 space-y-2">
+                                    @foreach($expense->sharedMembers as $member)
+                                    <li class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-2 rounded">
+                                        <div>
+                                            <div class="font-medium text-gray-900 dark:text-gray-100">{{ $member->user->name ?? 'User #' . $member->user_id }}</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $member->user->email ?? '' }}</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="font-semibold">{{ auth()->user()->preferred_currency }} {{ number_format($member->split_amount, 2) }}</div>
+                                            <div class="text-sm {{ $member->is_paid ? 'text-green-600' : 'text-yellow-600' }}">{{ $member->is_paid ? 'Paid' : 'Unpaid' }}</div>
+                                        </div>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </div>
+                            @endif
+
                             @if($expense->description)
                             <div>
                                 <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.description') }}</label>

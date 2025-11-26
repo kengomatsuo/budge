@@ -14,9 +14,10 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" novalidate>
         @csrf
         @method('patch')
+        <x-form-errors class="mb-4" />
 
         <div>
             <x-input-label for="name" :value="__('messages.name')" />
