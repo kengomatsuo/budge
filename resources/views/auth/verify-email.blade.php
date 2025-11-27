@@ -9,23 +9,23 @@
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}" novalidate>
+    <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
+        <form method="POST" action="{{ route('verification.send') }}" novalidate class="w-full sm:w-fit">
             @csrf
             <x-form-errors class="mb-4" />
 
-            <div>
-                <x-primary-button class="inline-flex items-center">
+            <div class="w-full sm:w-fit">
+                <x-primary-button class="inline-flex items-center w-full sm:w-fit">
                     <x-heroicon-o-check class="w-5 h-5 mr-2" />
                     {{ __('Resend Verification Email') }}
                 </x-primary-button>
             </div>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}" class="w-full sm:w-fit">
             @csrf
 
-            <x-secondary-button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+            <x-secondary-button type="submit" class="w-full sm:w-fit underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                 {{ __('Log Out') }}
             </x-secondary-button>
         </form>
