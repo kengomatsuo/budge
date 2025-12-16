@@ -102,7 +102,7 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-100">
-                                        {{ auth()->user()->preferred_currency }} {{ number_format($expense->amount, 2) }}
+                                        {{ auth()->user()->preferred_currency }} {{ number_format(convert_currency($expense->my_share, $expense->currency, auth()->user()->preferred_currency), 2) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                         {{ $expense->payment_method ? __('messages.' . $expense->payment_method) : '-' }}

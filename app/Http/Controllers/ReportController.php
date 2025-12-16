@@ -12,10 +12,24 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-        $period = $request->get('period', 'this_month');
+        $type = $request->get('type', 'monthly');
+        $year = $request->get('year', now()->year);
+        $month = $request->get('month', now()->month);
+        $startDateInput = $request->get('start_date');
+        $endDateInput = $request->get('end_date');
         $categoryId = $request->get('category_id');
 
-        [$startDate, $endDate] = $this->getDateRange($period);
+        if ($type === 'custom' && $startDateInput && $endDateInput) {
+            $startDate = Carbon::parse($startDateInput)->startOfDay();
+            $endDate = Carbon::parse($endDateInput)->endOfDay();
+        } elseif ($type === 'yearly') {
+            $startDate = Carbon::createFromDate($year, 1, 1)->startOfYear();
+            $endDate = Carbon::createFromDate($year, 1, 1)->endOfYear();
+        } else {
+            // Default to Monthly
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        }
 
         $expensesQuery = Expense::with('category')->where('user_id', auth()->id())
             ->whereBetween('expense_date', [$startDate, $endDate]);
@@ -30,7 +44,7 @@ class ReportController extends Controller
 
         // total spent in user's preferred currency
         $totalSpent = $expenses->sum(function($e) use ($userPreferred) {
-            return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+            return convert_currency($e->my_share, $e->currency ?? 'IDR', $userPreferred);
         });
 
         $expenseCount = $expenses->count();
@@ -40,7 +54,7 @@ class ReportController extends Controller
             ->map(function($items) use ($userPreferred) {
                 $first = $items->first();
                 $total = $items->sum(function($e) use ($userPreferred) {
-                    return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+                    return convert_currency($e->my_share, $e->currency ?? 'IDR', $userPreferred);
                 });
                 return (object) [
                     'name' => $first->category->name ?? 'Unknown',
@@ -56,14 +70,14 @@ class ReportController extends Controller
             return (object) [
                 'date' => Carbon::parse($items->first()->expense_date)->format('Y-m-d'),
                 'total' => $items->sum(function($e) use ($userPreferred) {
-                    return convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+                    return convert_currency($e->my_share, $e->currency ?? 'IDR', $userPreferred);
                 }),
             ];
         })->sortBy('date')->values();
 
         // largest expense by converted amount
         $largestExpense = $expenses->map(function($e) use ($userPreferred) {
-            $e->converted_amount = convert_currency($e->amount, $e->currency ?? 'IDR', $userPreferred);
+            $e->converted_amount = convert_currency($e->my_share, $e->currency ?? 'IDR', $userPreferred);
             return $e;
         })->sortByDesc('converted_amount')->first();
 
@@ -78,20 +92,12 @@ class ReportController extends Controller
             'spendingTrend',
             'largestExpense',
             'categories',
-            'period'
+            'type',
+            'year',
+            'month',
+            'startDate',
+            'endDate'
         ));
-    }
-
-    private function getDateRange($period)
-    {
-        $now = now();
-
-        return match($period) {
-            'this_week' => [$now->copy()->startOfWeek(), $now->copy()->endOfWeek()],
-            'this_month' => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
-            'this_year' => [$now->copy()->startOfYear(), $now->copy()->endOfYear()],
-            default => [$now->copy()->startOfMonth(), $now->copy()->endOfMonth()],
-        };
     }
 }
 

@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap">
-                {{ auth()->user()->preferred_currency }} {{ number_format($expense->amount, 2) }}
+                {{ auth()->user()->preferred_currency }} {{ number_format(convert_currency($expense->my_share, $expense->currency, auth()->user()->preferred_currency), 2) }}
             </div>
         </div>
         @empty

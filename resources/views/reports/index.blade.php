@@ -13,19 +13,64 @@
             </div>
 
             <!-- Filter Section -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="GET" action="{{ route('reports.index') }}" class="flex flex-wrap gap-4">
-                    <select name="period" onchange="this.form.submit()" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
-                        <option value="this_week" {{ $period == 'this_week' ? 'selected' : '' }}>{{ __('messages.this_week') }}</option>
-                        <option value="this_month" {{ $period == 'this_month' ? 'selected' : '' }}>{{ __('messages.this_month') }}</option>
-                        <option value="this_year" {{ $period == 'this_year' ? 'selected' : '' }}>{{ __('messages.this_year') }}</option>
-                    </select>
-                    <select name="category_id" onchange="this.form.submit()" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
-                        <option value="">{{ __('messages.category') }}</option>
-                        @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                        @endforeach
-                    </select>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6" x-data="{ type: '{{ $type }}' }">
+                <form method="GET" action="{{ route('reports.index') }}" class="flex flex-wrap gap-4 items-end">
+                    <!-- Type Selector -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.report_type') }}</label>
+                        <select name="type" x-model="type" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                            <option value="monthly">{{ __('messages.monthly') }}</option>
+                            <option value="yearly">{{ __('messages.yearly') }}</option>
+                            <option value="custom">{{ __('messages.custom_range') }}</option>
+                        </select>
+                    </div>
+
+                    <!-- Year Selector -->
+                    <div x-show="type === 'monthly' || type === 'yearly'">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.year') }}</label>
+                        <select name="year" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                            @for($y = date('Y'); $y >= date('Y') - 5; $y--)
+                                <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
+                            @endfor
+                        </select>
+                    </div>
+
+                    <!-- Month Selector -->
+                    <div x-show="type === 'monthly'">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.month') }}</label>
+                        <select name="month" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                            @foreach(range(1, 12) as $m)
+                                <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Custom Range -->
+                    <div x-show="type === 'custom'" class="flex gap-2">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.start_date') }}</label>
+                            <input type="date" name="start_date" value="{{ request('start_date') }}" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.end_date') }}</label>
+                            <input type="date" name="end_date" value="{{ request('end_date') }}" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.category') }}</label>
+                        <select name="category_id" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                            <option value="">{{ __('messages.all_categories') }}</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <x-primary-button type="submit" class="mb-0.5">
+                        {{ __('messages.apply_filters') }}
+                    </x-primary-button>
                 </form>
             </div>
 
@@ -62,7 +107,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <x-spending-by-category :items="$spendingByCategory" :total="$totalSpent" />
 
-                <x-spending-trend :items="$spendingTrend" :title="($period == 'this_month') ? __('messages.spending_trend_this_month') : __('messages.spending_trend_7_day')" :startRight="true" />
+                @php
+                    $chartTitle = match($type) {
+                        'monthly' => __('messages.spending_trend') . ' (' . date('F Y', mktime(0, 0, 0, $month, 1, $year)) . ')',
+                        'yearly' => __('messages.spending_trend') . ' (' . $year . ')',
+                        'custom' => __('messages.spending_trend') . ' (' . __('messages.custom_range') . ')',
+                        default => __('messages.spending_trend')
+                    };
+                @endphp
+                <x-spending-trend :items="$spendingTrend" :title="$chartTitle" :startRight="true" />
             </div>
 
             <!-- Top Categories -->

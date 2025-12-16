@@ -18,12 +18,12 @@ class DashboardController extends Controller
         $startOfMonth = $now->copy()->startOfMonth();
         $endOfMonth = $now->copy()->endOfMonth();
 
-        $expensesMonth = Expense::where('user_id', $user->id)
+        $expensesMonth = Expense::with('sharedMembers')->where('user_id', $user->id)
             ->whereBetween('expense_date', [$startOfMonth, $endOfMonth])
             ->get();
 
         $totalExpensesMonth = $expensesMonth->sum(function($e) use ($user) {
-            return convert_currency($e->amount, $e->currency ?? 'IDR', $user->preferred_currency);
+            return convert_currency($e->my_share, $e->currency ?? 'IDR', $user->preferred_currency);
         });
 
         $budgets = Budget::where('user_id', $user->id)
@@ -40,15 +40,15 @@ class DashboardController extends Controller
 
         $budgetRemaining = $totalBudget - $totalExpensesMonth;
 
-        $expensesToday = Expense::where('user_id', $user->id)
+        $expensesToday = Expense::with('sharedMembers')->where('user_id', $user->id)
             ->whereDate('expense_date', $now->toDateString())
             ->get()
             ->sum(function($e) use ($user) {
-                return convert_currency($e->amount, $e->currency ?? 'IDR', $user->preferred_currency);
+                return convert_currency($e->my_share, $e->currency ?? 'IDR', $user->preferred_currency);
             });
 
         // Build spending by category converted to user's preferred currency
-        $rawByCategory = Expense::with('category')
+        $rawByCategory = Expense::with(['category', 'sharedMembers'])
             ->where('user_id', $user->id)
             ->whereBetween('expense_date', [$startOfMonth, $endOfMonth])
             ->get()
@@ -56,7 +56,7 @@ class DashboardController extends Controller
             ->map(function($items) use ($user) {
                 $first = $items->first();
                 $total = $items->sum(function($e) use ($user) {
-                    return convert_currency($e->amount, $e->currency ?? 'IDR', $user->preferred_currency);
+                    return convert_currency($e->my_share, $e->currency ?? 'IDR', $user->preferred_currency);
                 });
                 return (object) [
                     'name' => $first->category->name ?? 'Unknown',
@@ -70,7 +70,7 @@ class DashboardController extends Controller
         // Build 7-day trend, always showing last 7 days
         $trendStart = $now->copy()->subDays(6)->startOfDay();
         $trendEnd = $now->copy()->endOfDay();
-        $rawExpensesTrend = Expense::where('user_id', $user->id)
+        $rawExpensesTrend = Expense::with('sharedMembers')->where('user_id', $user->id)
             ->whereBetween('expense_date', [$trendStart, $trendEnd])
             ->get()
             ->groupBy(function($e) {
@@ -83,7 +83,7 @@ class DashboardController extends Controller
             $total = 0;
             if (isset($rawExpensesTrend[$date])) {
                 $total = $rawExpensesTrend[$date]->sum(function($e) use ($user) {
-                    return convert_currency($e->amount, $e->currency ?? 'IDR', $user->preferred_currency);
+                    return convert_currency($e->my_share, $e->currency ?? 'IDR', $user->preferred_currency);
                 });
             }
             $spendingTrend->push((object) [
@@ -92,7 +92,7 @@ class DashboardController extends Controller
             ]);
         }
 
-        $recentExpenses = Expense::with('category')
+        $recentExpenses = Expense::with(['category', 'sharedMembers'])
             ->where('user_id', $user->id)
             ->orderBy('expense_date', 'desc')
             ->take(10)

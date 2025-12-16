@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('expenses', ExpenseController::class);
+    Route::post('/expenses/ocr', App\Http\Controllers\ExpenseOCRController::class)->name('expenses.ocr');
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('budgets', BudgetController::class)->except(['show']);
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

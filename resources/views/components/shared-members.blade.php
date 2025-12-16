@@ -1,18 +1,23 @@
 @props([
     'users' => [],
+    'currentUser' => null,
     'selected' => [],
     'expenseAmount' => 0,
     'initialSplits' => [],
     'namePrefix' => 'shared',
+    'initialSplitType' => 'equal',
 ])
 
 <div x-data="sharedMembersComponent({
     allUsers: {{ json_encode($users->map(fn($u) => ['id' => $u->id, 'name' => $u->name, 'email' => $u->email])) }},
+    currentUser: {{ json_encode($currentUser ? ['id' => $currentUser->id, 'name' => $currentUser->name . ' (You)', 'email' => $currentUser->email] : null) }},
     initialSelected: {{ json_encode(array_values((array) $selected)) }},
     amount: {{ json_encode((float) $expenseAmount) }},
     initialSplits: {{ json_encode((array) $initialSplits) }},
     namePrefix: {{ json_encode($namePrefix) }},
-})" x-init="init()">
+    initialSplitType: {{ json_encode($initialSplitType) }},
+})" x-init="init()"
+@expense-amount-change.window="amount = parseFloat($event.detail); if(splitType === 'equal') computeEqual();">
 
     <input type="hidden" name="split_type" :value="splitType">
 
@@ -39,10 +44,11 @@
         <div>
             <label
                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_method') }}</label>
-            <select x-model="splitType"
+            <select x-model="splitType" @change="$dispatch('split-type-change', splitType)"
                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-                <option value="equal">{{ __('messages.equal') }}</option>
-                <option value="custom">{{ __('messages.custom') }}</option>
+                <option value="equal">{{ __('messages.split_equally') }}</option>
+                <option value="manual">{{ __('messages.split_manually') }}</option>
+                <option value="items">{{ __('messages.split_by_items') }}</option>
             </select>
         </div>
     </div>
@@ -64,14 +70,21 @@
                         <div class="text-right font-semibold text-gray-900 dark:text-gray-100"> <span x-text="currency" class="mr-1"></span><span
                                 x-text="format(equalAmountForIndex(idx))"></span></div>
                     </template>
-                    <template x-if="splitType === 'custom'">
+                    <template x-if="splitType === 'manual'">
                         <input type="number" step="0.01" min="0" :name="`${namePrefix}_splits[${u.id}]`"
                             x-model.number="customSplits[u.id]" @blur="clamp(u.id)"
                             class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 text-right px-2 py-1">
                     </template>
-                    <button type="button" @click.prevent="removeUser(u.id)" class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" aria-label="{{ __('messages.remove') }}">
+                    <button type="button" @click.prevent="removeUser(u.id)"
+                        x-show="!currentUser || u.id !== currentUser.id"
+                        class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" aria-label="{{ __('messages.remove') }}">
                         <x-heroicon-o-x-mark class="w-4 h-4" />
                     </button>
+                    <div type="button" @click.prevent="removeUser(u.id)"
+                        x-show="currentUser && u.id === currentUser.id"
+                        class="p-1 rounded text-gray-600 dark:text-gray-300" aria-label="{{ __('messages.remove') }}">
+                        <x-heroicon-o-lock-closed class="w-4 h-4" />
+                    </div>
                 </div>
             </div>
         </template>
@@ -81,7 +94,7 @@
         <div class="text-sm text-gray-700 dark:text-gray-300">{{ __('messages.total_assigned') }}: <span class="font-semibold"
                 x-text="format(totalAssigned)"></span> / <span class="font-semibold" x-text="format(amount)"></span>
         </div>
-        <template x-if="splitType === 'custom' && totalAssigned > amount">
+        <template x-if="splitType === 'manual' && totalAssigned > amount">
             <div class="text-sm text-red-600 dark:text-red-400">{{ __('messages.assigned_exceeds') }}</div>
         </template>
     </div>
@@ -91,18 +104,21 @@
 <script>
     function sharedMembersComponent({
         allUsers,
+        currentUser,
         initialSelected,
         amount,
         initialSplits,
-        namePrefix
+        namePrefix,
+        initialSplitType
     }) {
         return {
             namePrefix: namePrefix,
             allUsers: allUsers,
+            currentUser: currentUser,
             query: '',
             suggestions: [],
             selected: [],
-            splitType: 'equal',
+            splitType: initialSplitType === 'items' ? 'manual' : (initialSplitType || 'equal'),
             amount: parseFloat(amount || 0),
             currency: '{{ auth()->user()->preferred_currency }}',
             customSplits: {},
@@ -110,7 +126,14 @@
             equalRemainder: 0,
             focusIndex: -1,
             init() {
+                // Initialize selected users
                 this.selected = initialSelected.map(id => this.allUsers.find(u => u.id == id)).filter(Boolean);
+
+                // Ensure current user is in the list if not already
+                if (this.currentUser && !this.selected.find(u => u.id === this.currentUser.id)) {
+                    this.selected.unshift(this.currentUser);
+                }
+
                 // apply initial custom splits if provided
                 if (typeof initialSplits === 'object') {
                     Object.keys(initialSplits).forEach(k => {
@@ -121,6 +144,22 @@
                     this.customSplits[u.id] = parseFloat(this.customSplits[u.id] || 0);
                 });
                 this.computeEqual();
+
+                // Watchers for parent sync
+                this.$watch('selected', (value) => {
+                    this.$dispatch('selected-users-change', value);
+                    if (this.splitType === 'equal') this.computeEqual();
+                });
+                this.$watch('splitType', (value) => {
+                    this.$dispatch('split-type-change', value);
+                    if (value === 'equal') this.computeEqual();
+                });
+
+                // Initial sync
+                this.$nextTick(() => {
+                    this.$dispatch('selected-users-change', this.selected);
+                    this.$dispatch('split-type-change', this.splitType);
+                });
             },
             filter() {
                 const q = this.query.trim().toLowerCase();
@@ -161,11 +200,14 @@
                 this.suggestions = [];
                 this.focusIndex = -1;
                 if (this.splitType === 'equal') this.computeEqual();
-                if (this.splitType === 'custom') {
+                if (this.splitType === 'manual') {
                     this.customSplits[user.id] = 0;
                 }
             },
             removeUser(id) {
+                // Prevent removing current user
+                if (this.currentUser && id === this.currentUser.id) return;
+
                 this.selected = this.selected.filter(u => u.id !== id);
                 delete this.customSplits[id];
                 if (this.splitType === 'equal') this.computeEqual();
@@ -176,9 +218,12 @@
                     this.equalRemainder = 0;
                     return;
                 }
-                const base = Math.floor((this.amount / this.selected.length) * 100) / 100;
-                const totalAssigned = base * this.selected.length;
+                // Split among selected users (which now includes current user)
+                const count = this.selected.length;
+                const base = Math.floor((this.amount / count) * 100) / 100;
+                const totalAssigned = base * count;
                 const remainder = Math.round((this.amount - totalAssigned) * 100) / 100;
+
                 this.equalBase = base;
                 this.equalRemainder = remainder;
             },
@@ -198,6 +243,7 @@
             get totalAssigned() {
                 if (this.splitType === 'equal') return (this.equalBase || 0) * this.selected.length + (this
                     .equalRemainder || 0);
+                if (this.splitType === 'items') return 0; // Handled elsewhere
                 return this.selected.reduce((s, u) => s + (parseFloat(this.customSplits[u.id] || 0)), 0);
             },
             format(v) {

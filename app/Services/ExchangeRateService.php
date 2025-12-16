@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ExchangeRateService
 {
@@ -24,46 +25,37 @@ class ExchangeRateService
         $key = self::$cacheKey . $base;
 
         return Cache::remember($key, self::$ttl, function () use ($base) {
-            try {
-                $provider = config('services.exchange_rate.provider', 'exchangerate_api_v6');
+            $provider = config('services.exchange_rate.provider', 'exchangerate_api_v6');
 
-                if ($provider === 'exchangerate_api_v6') {
-                    $apiKey = config('services.exchange_rate.key');
-                    $endpointTemplate = config('services.exchange_rate.v6_endpoint', 'https://v6.exchangerate-api.com/v6/%s/latest/%s');
+            if ($provider === 'exchangerate_api_v6') {
+                $apiKey = config('services.exchange_rate.key');
+                $endpointTemplate = config('services.exchange_rate.v6_endpoint', 'https://v6.exchangerate-api.com/v6/%s/latest/%s');
 
-                    if (empty($apiKey)) {
-                        return null;
-                    }
-
-                    $url = sprintf($endpointTemplate, $apiKey, $base);
-                    $resp = Http::timeout(6)->get($url);
-
-                    if ($resp->ok()) {
-                        $json = $resp->json();
-                        // ExchangeRate-API v6 returns 'conversion_rates'
-                        if (isset($json['conversion_rates']) && is_array($json['conversion_rates'])) {
-                            return $json['conversion_rates'];
-                        }
-                        // older/alternate structure
-                        if (isset($json['rates']) && is_array($json['rates'])) {
-                            return $json['rates'];
-                        }
-                    }
+                if (empty($apiKey)) {
+                    throw new \Exception("ExchangeRateService: API Key is missing.");
                 }
 
-                // Fallback to exchangerate.host if configured or v6 fails
-                $resp = Http::timeout(5)->get('https://api.exchangerate.host/latest', [
-                    'base' => $base,
-                ]);
+                $url = sprintf($endpointTemplate, $apiKey, $base);
+                $resp = Http::timeout(6)->get($url);
 
                 if ($resp->ok()) {
                     $json = $resp->json();
-                    return $json['rates'] ?? null;
+                    // ExchangeRate-API v6 returns 'conversion_rates'
+                    if (isset($json['conversion_rates']) && is_array($json['conversion_rates'])) {
+                        return $json['conversion_rates'];
+                    }
+                    // older/alternate structure
+                    if (isset($json['rates']) && is_array($json['rates'])) {
+                        return $json['rates'];
+                    }
+
+                    throw new \Exception("ExchangeRateService: Invalid response structure from API for base $base.");
                 }
-            } catch (\Throwable $e) {
-                return null;
+
+                throw new \Exception("ExchangeRateService: API request failed for base $base. Status: " . $resp->status() . " Body: " . $resp->body());
             }
-            return null;
+
+            throw new \Exception("ExchangeRateService: Provider not supported or configured.");
         });
     }
 
@@ -90,11 +82,16 @@ class ExchangeRateService
         // Attempt fallback: get rates for base = IDR and compute via IDR
         $ratesFromIdr = self::getRates('IDR');
         if (is_array($ratesFromIdr) && isset($ratesFromIdr[$from]) && isset($ratesFromIdr[$to])) {
-            // ratesFromIdr maps IDR -> X, so to convert from->to: amount * (IDR_per_from / IDR_per_to)
+            // ratesFromIdr maps IDR -> X (1 IDR = X Currency)
+            // Amount_From / Rate(IDR->From) = Amount_IDR
+            // Amount_IDR * Rate(IDR->To) = Amount_To
+            // So: Amount * (Rate(IDR->To) / Rate(IDR->From))
+
             $idrPerFrom = $ratesFromIdr[$from];
             $idrPerTo = $ratesFromIdr[$to];
-            if ($idrPerTo == 0) return null;
-            return $amount * ($idrPerFrom / $idrPerTo);
+
+            if ($idrPerFrom == 0) return null;
+            return $amount * ($idrPerTo / $idrPerFrom);
         }
 
         return null;

@@ -21,7 +21,16 @@ return new class extends Migration
             $table->string('currency')->default('IDR');
             $table->date('expense_date');
             $table->string('payment_method');
+
+            $table->json('ocr_data')->nullable();
+            $table->decimal('subtotal', 15, 2)->nullable();
+            $table->decimal('tax_amount', 15, 2)->nullable();
+            $table->decimal('service_charge', 15, 2)->nullable();
+            $table->decimal('tip_amount', 15, 2)->nullable();
+            $table->decimal('discount_amount', 15, 2)->nullable();
+
             $table->boolean('is_shared')->default(false);
+            $table->enum('split_type', ['none', 'equal', 'manual', 'items'])->default('none');
             $table->timestamps();
         });
     }

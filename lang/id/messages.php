@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'dashboard' => 'Dasbor',
+    'dashboard' => 'Beranda',
     'expenses' => 'Pengeluaran',
     'categories' => 'Kategori',
     'budgets' => 'Anggaran',
@@ -16,7 +16,7 @@ return [
     'expenses_today' => 'Pengeluaran Hari Ini',
 
     'spending_by_category' => 'Pengeluaran per Kategori',
-    'spending_trend' => 'Tren Pengeluaran (7 Hari Terakhir)',
+    'spending_trend' => 'Tren Pengeluaran',
     'spending_trend_7_day' => 'Tren Pengeluaran (7 Hari Terakhir)',
     'spending_trend_this_month' => 'Tren Pengeluaran (Bulan Ini)',
     'recent_expenses' => 'Pengeluaran Terbaru',
@@ -176,4 +176,24 @@ return [
     'all_categories' => 'Semua Kategori',
     'select_payment_method' => 'Pilih Metode Pembayaran',
     'all_methods' => 'Semua Metode',
+    // OCR
+    'processing_receipt' => 'Memproses struk...',
+    'receipt_analyzed' => 'Struk Dianalisis',
+    'apply_to_form' => 'Terapkan ke Formulir',
+    'merchant' => 'Toko',
+    'receipt_number' => 'No. Struk',
+    'items' => 'Item',
+    'subtotal' => 'Subtotal',
+    'tax' => 'Pajak',
+    'service_charge' => 'Biaya Layanan',
+    'tip' => 'Tip',
+    'discount' => 'Diskon',
+    'total' => 'Total',
+    'ocr_failed' => 'Gagal memproses struk. Anda masih bisa memasukkan secara manual.',
+    'scan_receipt' => 'Pindai Struk',
+    'add_item' => 'Tambah Item',
+    'item_name' => 'Nama Item',
+    'qty' => 'Jml',
+    'price' => 'Harga',
+    'assign_to' => 'Tugaskan ke',
 ];

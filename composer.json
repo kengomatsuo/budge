@@ -11,6 +11,7 @@
         "blade-ui-kit/blade-icons": "^1.8",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "openai-php/laravel": "^0.18.0",
         "resend/resend-php": "^1.1"
     },
     "require-dev": {

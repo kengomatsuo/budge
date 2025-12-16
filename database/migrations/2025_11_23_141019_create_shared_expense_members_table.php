@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('expense_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('split_amount', 15, 2);
+            $table->json('assigned_item_ids')->nullable();
             $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });

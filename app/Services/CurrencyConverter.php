@@ -5,17 +5,6 @@ namespace App\Services;
 class CurrencyConverter
 {
     /**
-     * Static conversion rates relative to IDR. Update as needed or replace with API.
-     * Key: currency code, Value: number of IDR per unit of that currency.
-     */
-    protected static $ratesToIdr = [
-        'IDR' => 1.0,
-        'USD' => 17000.0,
-        'EUR' => 20500.0,
-        'JPY' => 108.0,
-    ];
-
-    /**
      * Convert amount from one currency to another using static rates.
      * Falls back to 1:1 if rate missing.
      */
@@ -28,30 +17,14 @@ class CurrencyConverter
             return $amount;
         }
 
-        // Try live conversion via ExchangeRateService if available
-        try {
-            $converted = ExchangeRateService::convert($amount, $from, $to);
-            if (!is_null($converted)) {
-                return $converted;
-            }
-        } catch (\Throwable $e) {
-            // fall back to static rates
+        // Try live conversion via ExchangeRateService
+        // If it fails, it will throw an exception which we allow to bubble up
+        $converted = ExchangeRateService::convert($amount, $from, $to);
+
+        if (!is_null($converted)) {
+            return $converted;
         }
 
-        $rates = self::$ratesToIdr;
-
-        $fromToIdr = $rates[$from] ?? null;
-        $toToIdr = $rates[$to] ?? null;
-
-        // If either rate is missing, return original amount as fallback
-        if (is_null($fromToIdr) || is_null($toToIdr)) {
-            return $amount;
-        }
-
-        // Convert amount -> IDR -> target
-        $amountInIdr = $amount * $fromToIdr;
-        $converted = $amountInIdr / $toToIdr;
-
-        return $converted;
+        throw new \Exception("CurrencyConverter: Unable to convert from $from to $to");
     }
 }

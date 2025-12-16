@@ -67,10 +67,11 @@
         <div>
             <x-input-label for="preferred_currency" :value="__('messages.currency')" />
             <select id="preferred_currency" name="preferred_currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                <option value="USD" {{ old('preferred_currency', $user->preferred_currency) === 'USD' ? 'selected' : '' }}>USD ($)</option>
-                <option value="EUR" {{ old('preferred_currency', $user->preferred_currency) === 'EUR' ? 'selected' : '' }}>EUR (€)</option>
-                <option value="IDR" {{ old('preferred_currency', $user->preferred_currency) === 'IDR' ? 'selected' : '' }}>IDR (Rp)</option>
-                <option value="JPY" {{ old('preferred_currency', $user->preferred_currency) === 'JPY' ? 'selected' : '' }}>JPY (¥)</option>
+                @foreach($currencies as $code => $details)
+                    <option value="{{ $code }}" {{ old('preferred_currency', $user->preferred_currency) === $code ? 'selected' : '' }}>
+                        {{ $code }} ({{ $details['symbol'] }})
+                    </option>
+                @endforeach
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('preferred_currency')" />
         </div>

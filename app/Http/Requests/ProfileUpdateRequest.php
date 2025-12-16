@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'phone' => ['nullable', 'string', 'max:20'],
             'preferred_language' => ['required', 'in:en,id'],
-            'preferred_currency' => ['required', 'in:USD,EUR,IDR,JPY'],
+            'preferred_currency' => ['required', Rule::in(array_keys(config('currencies')))],
         ];
     }
 }

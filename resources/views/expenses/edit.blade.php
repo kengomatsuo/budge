@@ -37,10 +37,11 @@
                             <label for="currency" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.currency') }} *</label>
                             <select name="currency" id="currency" required
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
-                                <option value="USD" {{ old('currency', $expense->currency) === 'USD' ? 'selected' : '' }}>USD ($)</option>
-                                <option value="EUR" {{ old('currency', $expense->currency) === 'EUR' ? 'selected' : '' }}>EUR (€)</option>
-                                <option value="IDR" {{ old('currency', $expense->currency) === 'IDR' ? 'selected' : '' }}>IDR (Rp)</option>
-                                <option value="JPY" {{ old('currency', $expense->currency) === 'JPY' ? 'selected' : '' }}>JPY (¥)</option>
+                                @foreach($currencies as $code => $details)
+                                    <option value="{{ $code }}" {{ old('currency', $expense->currency) === $code ? 'selected' : '' }}>
+                                        {{ $code }} ({{ $details['symbol'] }})
+                                    </option>
+                                @endforeach
                             </select>
                             @error('currency')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -103,7 +104,7 @@
                         </div>
 
                         <div x-show="isShared" x-cloak class="mt-4">
-                            <x-shared-members :users="$users" :selected="old('shared_users', $selected ?? [])" :expenseAmount="old('amount', $expense->amount)" :initialSplits="old('shared_splits', [])" />
+                            <x-shared-members :users="$users" :currentUser="auth()->user()" :selected="old('shared_users', $selected ?? [])" :expenseAmount="old('amount', $expense->amount)" :initialSplits="old('shared_splits', $currentSplits ?? [])" :initialSplitType="old('split_type', $expense->split_type)" />
                             <x-input-error class="mt-2" :messages="$errors->get('shared_users')" />
                             <x-input-error class="mt-2" :messages="$errors->get('shared_splits')" />
                         </div>

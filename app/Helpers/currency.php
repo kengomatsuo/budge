@@ -9,10 +9,6 @@ if (! function_exists('convert_currency')) {
      */
     function convert_currency($amount, $from, $to)
     {
-        try {
-            return CurrencyConverter::convert((float) $amount, $from ?: 'IDR', $to ?: 'IDR');
-        } catch (\Throwable $e) {
-            return $amount;
-        }
+        return CurrencyConverter::convert((float) $amount, $from ?: 'IDR', $to ?: 'IDR');
     }
 }

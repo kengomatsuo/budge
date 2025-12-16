@@ -84,6 +84,34 @@
                                 <p class="mt-1 text-gray-700 dark:text-gray-300">{{ $expense->description }}</p>
                             </div>
                             @endif
+
+                            @if(isset($expense->ocr_data['items']) && count($expense->ocr_data['items']) > 0)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{{ __('messages.items') }}</label>
+                                <div class="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead class="bg-gray-50 dark:bg-gray-700">
+                                            <tr>
+                                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('messages.item') }}</th>
+                                                <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('messages.qty') }}</th>
+                                                <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('messages.price') }}</th>
+                                                <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('messages.total') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                            @foreach($expense->ocr_data['items'] as $item)
+                                            <tr>
+                                                <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ $item['name'] }}</td>
+                                                <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 text-right">{{ $item['quantity'] }}</td>
+                                                <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 text-right">{{ number_format($item['unit_price'], 2) }}</td>
+                                                <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100 text-right">{{ number_format($item['total_price'], 2) }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            @endif
                         </div>
 
                         <div>

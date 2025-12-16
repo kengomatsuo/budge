@@ -17,20 +17,20 @@ class DummyDataSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::all();
+        // Always create dummy users if they don't exist, regardless of existing users
+        if (User::where('email', '!=', 'test@example.com')->count() < 3) {
+            User::factory()->count(40)->create();
+        }
 
-        if ($users->isEmpty()) {
-            User::factory()->count(3)->create();
-
+        if (!User::where('email', 'test@example.com')->exists()) {
             User::factory()->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
                 'password' => bcrypt('password'),
             ]);
-
-            // reload users
-            $users = User::all();
         }
+
+        $users = User::all();
 
         $faker = fake();
         $now = Carbon::now();
