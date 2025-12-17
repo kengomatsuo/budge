@@ -60,6 +60,10 @@
             <select id="preferred_language" name="preferred_language" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                 <option value="en" {{ old('preferred_language', $user->preferred_language) === 'en' ? 'selected' : '' }}>{{ __('messages.english') }}</option>
                 <option value="id" {{ old('preferred_language', $user->preferred_language) === 'id' ? 'selected' : '' }}>{{ __('messages.indonesian') }}</option>
+                <option value="es" {{ old('preferred_language', $user->preferred_language) === 'es' ? 'selected' : '' }}>{{ __('messages.spanish') }}</option>
+                <option value="zh" {{ old('preferred_language', $user->preferred_language) === 'zh' ? 'selected' : '' }}>{{ __('messages.chinese') }}</option>
+                <option value="ko" {{ old('preferred_language', $user->preferred_language) === 'ko' ? 'selected' : '' }}>{{ __('messages.korean') }}</option>
+                <option value="ja" {{ old('preferred_language', $user->preferred_language) === 'ja' ? 'selected' : '' }}>{{ __('messages.japanese') }}</option>
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('preferred_language')" />
         </div>

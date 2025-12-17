@@ -31,11 +31,22 @@ class ReportController extends Controller
             $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
         }
 
-        $expensesQuery = Expense::with('category')->where('user_id', auth()->id())
+        $expensesQuery = Expense::with(['category', 'sharedMembers'])
+            ->where(function($q) {
+                $q->where('user_id', auth()->id())
+                  ->orWhereHas('sharedMembers', function($sq) {
+                      $sq->where('user_id', auth()->id());
+                  });
+            })
             ->whereBetween('expense_date', [$startDate, $endDate]);
 
         if ($categoryId) {
-            $expensesQuery->where('category_id', $categoryId);
+            $category = Category::find($categoryId);
+            if ($category) {
+                $expensesQuery->whereHas('category', function($q) use ($category) {
+                    $q->where('name', $category->name);
+                });
+            }
         }
 
         $expenses = $expensesQuery->get();
@@ -50,14 +61,16 @@ class ReportController extends Controller
         $expenseCount = $expenses->count();
 
         // spending by category (converted)
-        $spendingByCategory = $expenses->groupBy('category_id')
-            ->map(function($items) use ($userPreferred) {
+        $spendingByCategory = $expenses->groupBy(function($item) {
+                return $item->category->name ?? 'Unknown';
+            })
+            ->map(function($items, $name) use ($userPreferred) {
                 $first = $items->first();
                 $total = $items->sum(function($e) use ($userPreferred) {
                     return convert_currency($e->my_share, $e->currency ?? 'IDR', $userPreferred);
                 });
                 return (object) [
-                    'name' => $first->category->name ?? 'Unknown',
+                    'name' => $name,
                     'color' => $first->category->color ?? null,
                     'total' => $total,
                 ];

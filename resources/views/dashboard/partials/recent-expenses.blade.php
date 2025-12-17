@@ -12,6 +12,11 @@
             <div>
                 <div class="font-medium text-gray-900 dark:text-gray-100">
                     {{ $expense->title }}
+                    @if($expense->is_shared)
+                        @if($expense->user_id !== auth()->id())
+                            <span class="ml-1 text-xs text-indigo-600 dark:text-indigo-400">({{ __('messages.shared_member') ?? 'Member' }})</span>
+                        @endif
+                    @endif
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
                     {{ $expense->category->name }} • {{ $expense->expense_date->format('M d, Y') }}

@@ -15,10 +15,21 @@ class ExpenseController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Expense::with(['category', 'files', 'sharedMembers.user'])->where('user_id', auth()->id());
+        $query = Expense::with(['category', 'files', 'sharedMembers.user'])
+            ->where(function($q) {
+                $q->where('user_id', auth()->id())
+                  ->orWhereHas('sharedMembers', function($sq) {
+                      $sq->where('user_id', auth()->id());
+                  });
+            });
 
         if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
+            $category = Category::find($request->category_id);
+            if ($category) {
+                $query->whereHas('category', function($q) use ($category) {
+                    $q->where('name', $category->name);
+                });
+            }
         }
 
         if ($request->filled('payment_method')) {
@@ -97,7 +108,7 @@ class ExpenseController extends Controller
             'currency' => ['required', Rule::in(array_keys(config('currencies')))],
             'category_id' => 'required|exists:categories,id',
             'expense_date' => 'required|date|before_or_equal:today',
-            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet',
+            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet,bank_transfer',
             'receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'is_shared' => 'sometimes|boolean',
             'split_type' => 'sometimes|in:equal,manual,items',
@@ -295,7 +306,7 @@ class ExpenseController extends Controller
             'currency' => ['required', Rule::in(array_keys(config('currencies')))],
             'category_id' => 'required|exists:categories,id',
             'expense_date' => 'required|date|before_or_equal:today',
-            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet',
+            'payment_method' => 'required|in:cash,debit_card,credit_card,e_wallet,bank_transfer',
             'receipt' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'is_shared' => 'sometimes|boolean',
             'split_type' => 'sometimes|in:equal,manual,items',

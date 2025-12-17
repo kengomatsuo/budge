@@ -38,6 +38,7 @@
                             <option value="debit_card" {{ request('payment_method') == 'debit_card' ? 'selected' : '' }}>{{ __('messages.debit_card') }}</option>
                             <option value="credit_card" {{ request('payment_method') == 'credit_card' ? 'selected' : '' }}>{{ __('messages.credit_card') }}</option>
                             <option value="e_wallet" {{ request('payment_method') == 'e_wallet' ? 'selected' : '' }}>{{ __('messages.e_wallet') }}</option>
+                            <option value="bank_transfer" {{ request('payment_method') == 'bank_transfer' ? 'selected' : '' }}>{{ __('messages.bank_transfer') }}</option>
                         </select>
                     </div>
                     <div>
@@ -93,7 +94,15 @@
                                         <span class="text-gray-400">📎</span>
                                         @endif
                                         @if($expense->is_shared)
-                                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium text-white" style="background-color:#6B7280">Shared</span>
+                                            @if($expense->user_id === auth()->id())
+                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                                    {{ __('messages.shared') }}
+                                                </span>
+                                            @else
+                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
+                                                    {{ __('messages.shared_member') ?? 'Shared (Member)' }}
+                                                </span>
+                                            @endif
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">

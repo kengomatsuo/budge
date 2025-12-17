@@ -35,10 +35,14 @@
                 <!-- Language Switcher -->
                 <form method="POST" action="{{ route('change.language') }}" class="me-3">
                     @csrf
-                    <select name="language" onchange="this.form.submit()" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm text-sm">
-                        <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>English</option>
-                        <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>Indonesia</option>
-                    </select>
+                        <select name="language" onchange="this.form.submit()" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm text-sm">
+                            <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>{{ __('messages.english') }}</option>
+                            <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>{{ __('messages.indonesian') }}</option>
+                            <option value="es" {{ auth()->user()->preferred_language === 'es' ? 'selected' : '' }}>{{ __('messages.spanish') }}</option>
+                            <option value="zh" {{ auth()->user()->preferred_language === 'zh' ? 'selected' : '' }}>{{ __('messages.chinese') }}</option>
+                            <option value="ko" {{ auth()->user()->preferred_language === 'ko' ? 'selected' : '' }}>{{ __('messages.korean') }}</option>
+                            <option value="ja" {{ auth()->user()->preferred_language === 'ja' ? 'selected' : '' }}>{{ __('messages.japanese') }}</option>
+                        </select>
                 </form>
 
                 <x-dropdown align="right" width="48">

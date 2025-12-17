@@ -107,6 +107,7 @@
                                 <option value="debit_card" {{ old('payment_method') == 'debit_card' ? 'selected' : '' }}>{{ __('messages.debit_card') }}</option>
                                 <option value="credit_card" {{ old('payment_method') == 'credit_card' ? 'selected' : '' }}>{{ __('messages.credit_card') }}</option>
                                 <option value="e_wallet" {{ old('payment_method') == 'e_wallet' ? 'selected' : '' }}>{{ __('messages.e_wallet') }}</option>
+                                <option value="bank_transfer" {{ old('payment_method') == 'bank_transfer' ? 'selected' : '' }}>{{ __('messages.bank_transfer') }}</option>
                             </select>
                             <x-input-error class="mt-2" :messages="$errors->get('payment_method')" />
                         </div>
@@ -274,12 +275,13 @@
 
                             // Populate form
                             if (data.merchant_name) this.form.title = data.merchant_name;
+                            if (data.description) this.form.description = data.description;
                             if (data.date) this.form.date = data.date;
                             if (data.currency) this.form.currency = data.currency;
 
                             // Populate Payment Method
                             if (data.payment_method) {
-                                const validMethods = ['cash', 'debit_card', 'credit_card', 'e_wallet'];
+                                const validMethods = ['cash', 'debit_card', 'credit_card', 'e_wallet', 'bank_transfer'];
                                 if (validMethods.includes(data.payment_method)) {
                                     this.form.payment_method = data.payment_method;
                                 }
@@ -311,13 +313,17 @@
                             this.discountAmount = parseFloat(data.discount_amount) || 0;
 
                             // Recalculate to be safe
-                            this.calculateTotals();
+                            if (this.items.length > 0) {
+                                this.calculateTotals();
+                            } else {
+                                this.grandTotal = this.subtotal.toFixed(2);
+                            }
                         } else {
-                            alert('Scan failed: ' + (result.message || 'Unknown error'));
+                            alert('{{ __('messages.ocr_failed') }}' + (result.message ? ': ' + result.message : ''));
                         }
                     } catch (error) {
                         console.error('Error scanning receipt:', error);
-                        alert('Error scanning receipt. Please try again.');
+                        alert('{{ __('messages.ocr_failed') }}');
                     } finally {
                         Alpine.store('ocr').scanning = false;
                     }
