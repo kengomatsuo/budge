@@ -41,7 +41,7 @@
     <div class="max-w-sm w-full">
         <div class="rounded-lg shadow-lg overflow-hidden">
               <div class="p-4 flex items-start space-x-3"
-                  :class="{ 'rounded-lg bg-green-950 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200': '{{ $type }}' === 'success', 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200': '{{ $type }}' === 'error' }">
+                  :class="{ 'rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200': '{{ $type }}' === 'success', 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200': '{{ $type }}' === 'error' }">
                 <div class="flex-shrink-0">
                     <svg x-show="'{{ $type }}' === 'success'" class="h-6 w-6 text-green-600 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
