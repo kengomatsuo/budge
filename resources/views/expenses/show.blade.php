@@ -18,10 +18,13 @@
                             </p>
                         </div>
                         <div class="flex space-x-2">
-                            <x-primary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'" class="inline-flex items-center">
-                                <x-heroicon-o-pencil class="w-5 h-5 mr-2" />
-                                {{ __('messages.edit') }}
-                            </x-primary-button>
+                            <!-- Edit button - only shown for owner -->
+                            @if($expense->canEdit())
+                                <x-primary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'" class="inline-flex items-center">
+                                    <x-heroicon-o-pencil class="w-5 h-5 mr-2" />
+                                    {{ __('messages.edit') }}
+                                </x-primary-button>
+                            @endif
                             <x-secondary-button type="button" onclick="window.location='{{ route('expenses.index') }}'">
                                 <span class="sm:hidden"><x-heroicon-o-arrow-left class="w-5 h-5" /></span>
                                 <span class="hidden sm:inline md:hidden">{{ __('messages.back') }}</span>

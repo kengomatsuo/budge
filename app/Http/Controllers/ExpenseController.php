@@ -245,14 +245,16 @@ class ExpenseController extends Controller
 
     public function show(Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
-        $expense->load('category', 'files', 'sharedMembers.user');
+        // Allow owner or shared members to view
+        abort_if(!$expense->canView(), 403);
+        $expense->load('category', 'files', 'sharedMembers.user', 'items');
         return view('expenses.show', compact('expense'));
     }
 
     public function edit(Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
+        // Only owner can edit
+        abort_if(!$expense->canEdit(), 403);
         $categories = Category::where('user_id', auth()->id())->get();
         $users = User::where('id', '!=', auth()->id())->get();
         $selected = $expense->sharedMembers()->pluck('user_id')->toArray();
@@ -264,7 +266,8 @@ class ExpenseController extends Controller
 
     public function update(Request $request, Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
+        // Only owner can update
+        abort_if(!$expense->canEdit(), 403);
 
         $customMessages = [
             'is_shared.boolean' => __('messages.is_shared_boolean'),
@@ -440,7 +443,8 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
-        abort_if($expense->user_id !== auth()->id(), 403);
+        // Only owner can delete
+        abort_if(!$expense->canEdit(), 403);
 
         foreach ($expense->files as $file) {
             Storage::disk('public')->delete($file->file_path);

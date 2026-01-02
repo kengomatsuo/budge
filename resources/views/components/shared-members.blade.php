@@ -17,7 +17,8 @@
     namePrefix: {{ json_encode($namePrefix) }},
     initialSplitType: {{ json_encode($initialSplitType) }},
 })" x-init="init()"
-@expense-amount-change.window="amount = parseFloat($event.detail); if(splitType === 'equal') computeEqual();">
+@expense-amount-change.window="amount = parseFloat($event.detail); if(splitType === 'equal') computeEqual();"
+@currency-change.window="currency = $event.detail">
 
     <input type="hidden" name="split_type" :value="splitType">
 
@@ -67,8 +68,8 @@
                 <div class="flex items-center space-x-2">
                     <input type="hidden" :name="`${namePrefix}_users[]`" :value="u.id">
                     <template x-if="splitType === 'equal'">
-                        <div class="text-right font-semibold text-gray-900 dark:text-gray-100"> <span x-text="currency" class="mr-1"></span><span
-                                x-text="format(equalAmountForIndex(idx))"></span></div>
+                        <div class="text-right font-semibold text-gray-900 dark:text-gray-100"><span
+                                x-text="formatMoney(equalAmountForIndex(idx))"></span></div>
                     </template>
                     <template x-if="splitType === 'manual'">
                         <input type="number" step="0.01" min="0" :name="`${namePrefix}_splits[${u.id}]`"
@@ -92,7 +93,7 @@
 
     <div class="pt-2">
         <div class="text-sm text-gray-700 dark:text-gray-300">{{ __('messages.total_assigned') }}: <span class="font-semibold"
-                x-text="format(totalAssigned)"></span> / <span class="font-semibold" x-text="format(amount)"></span>
+                x-text="formatMoney(totalAssigned)"></span> / <span class="font-semibold" x-text="formatMoney(amount)"></span>
         </div>
         <template x-if="splitType === 'manual' && totalAssigned > amount">
             <div class="text-sm text-red-600 dark:text-red-400">{{ __('messages.assigned_exceeds') }}</div>
@@ -120,7 +121,7 @@
             selected: [],
             splitType: initialSplitType === 'items' ? 'manual' : (initialSplitType || 'equal'),
             amount: parseFloat(amount || 0),
-            currency: '{{ auth()->user()->preferred_currency }}',
+            currency: this.$root.closest('[x-data*="expenseForm"]')?.__x?.$data?.form?.currency || '{{ auth()->user()->preferred_currency }}',
             customSplits: {},
             equalBase: 0,
             equalRemainder: 0,
@@ -248,6 +249,12 @@
             },
             format(v) {
                 return Number(v || 0).toFixed(2);
+            },
+            formatMoney(amount) {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: this.currency
+                }).format(amount || 0);
             },
         }
     }

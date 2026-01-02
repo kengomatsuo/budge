@@ -188,6 +188,9 @@
                     this.$watch('grandTotal', (value) => {
                         window.dispatchEvent(new CustomEvent('expense-amount-change', { detail: value }));
                     });
+                    this.$watch('form.currency', (value) => {
+                        window.dispatchEvent(new CustomEvent('currency-change', { detail: value }));
+                    });
                 },
 
                 addItem() {

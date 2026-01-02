@@ -71,4 +71,31 @@ class Expense extends Model
         $mySplit = $this->sharedMembers->where('user_id', auth()->id())->first();
         return $mySplit ? $mySplit->split_amount : $this->amount;
     }
+
+    /**
+     * Check if the given user is a shared member of this expense
+     */
+    public function isSharedMember($userId = null): bool
+    {
+        $userId = $userId ?? auth()->id();
+        return $this->is_shared && $this->sharedMembers()->where('user_id', $userId)->exists();
+    }
+
+    /**
+     * Check if the given user can view this expense (owner or shared member)
+     */
+    public function canView($userId = null): bool
+    {
+        $userId = $userId ?? auth()->id();
+        return $this->user_id === $userId || $this->isSharedMember($userId);
+    }
+
+    /**
+     * Check if the given user can edit this expense (only owner)
+     */
+    public function canEdit($userId = null): bool
+    {
+        $userId = $userId ?? auth()->id();
+        return $this->user_id === $userId;
+    }
 }

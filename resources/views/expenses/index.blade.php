@@ -117,19 +117,24 @@
                                         {{ $expense->payment_method ? __('messages.' . $expense->payment_method) : '-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                        <!-- View button - shown for everyone (owner and shared members) -->
                                         <x-secondary-button type="button" onclick="window.location='{{ route('expenses.show', $expense) }}'">
                                             <span class="inline-flex items-center"><x-heroicon-o-eye class="w-5 h-5" /></span>
                                         </x-secondary-button>
-                                        <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">
-                                            <span class="inline-flex items-center"><x-heroicon-o-pencil-square class="w-5 h-5" /></span>
-                                        </x-secondary-button>
-                                        <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-danger-button type="submit">
-                                                <span class="inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5" /></span>
-                                            </x-danger-button>
-                                        </form>
+
+                                        <!-- Edit and Delete buttons - only shown for owner -->
+                                        @if($expense->canEdit())
+                                            <x-secondary-button type="button" onclick="window.location='{{ route('expenses.edit', $expense) }}'">
+                                                <span class="inline-flex items-center"><x-heroicon-o-pencil-square class="w-5 h-5" /></span>
+                                            </x-secondary-button>
+                                            <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <x-danger-button type="submit">
+                                                    <span class="inline-flex items-center"><x-heroicon-o-trash class="w-5 h-5" /></span>
+                                                </x-danger-button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
