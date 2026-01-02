@@ -1,17 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('messages.my_expenses') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            {{-- Success messages are shown as global toast in the layout --}}
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="flex items-center gap-2">
+                <x-heroicon-o-banknotes class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.my_expenses') }}</h3>
+            </div>
 
             <!-- Filter Section -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg mb-6">
+            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <form method="GET" action="{{ route('expenses.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4" x-data="{ date_from: '{{ request('date_from') }}', date_to: '{{ request('date_to') }}' }">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.from') }}</label>
@@ -60,7 +56,7 @@
             </div>
 
             <!-- Expenses Table -->
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <div>
                     <div class="mb-4 flex">
                         <x-primary-button type="button" onclick="window.location='{{ route('expenses.create') }}'" class="ml-auto inline-flex items-center">
@@ -71,49 +67,49 @@
 
                     @if($expenses->count() > 0)
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <table class="min-w-full">
                             <thead>
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.date') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.title') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.category') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.amount') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.payment_method') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.actions') }}</th>
+                                <tr class="border-b border-gray-200 dark:border-gray-700">
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.date') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.title') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.category') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.amount') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.payment_method') }}</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-400">{{ __('messages.actions') }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody class="divide-y divide-gray-100 dark:divide-gray-700/50">
                                 @foreach($expenses as $expense)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                <tr class="group hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-colors duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
                                         {{ $expense->expense_date->format('M d, Y') }}
                                     </td>
-                                    <td class="px-6 py-4 min-w-72 text-sm font-medium text-gray-900 dark:text-gray-100 text-ellipsis break-words">
+                                    <td class="px-6 py-4 min-w-72 text-sm font-medium text-gray-900 dark:text-gray-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors text-ellipsis break-words">
                                         {{ $expense->title }}
                                         @if($expense->files->count() > 0)
-                                        <span class="text-gray-400">📎</span>
+                                        <span class="text-gray-400 dark:text-gray-500">📎</span>
                                         @endif
                                         @if($expense->is_shared)
                                             @if($expense->user_id === auth()->id())
-                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                                                     {{ __('messages.shared') }}
                                                 </span>
                                             @else
-                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
+                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
                                                     {{ __('messages.shared_member') ?? 'Shared (Member)' }}
                                                 </span>
                                             @endif
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-white" style="background-color: {{ $expense->category->color ?? '#3B82F6' }}">
+                                        <span class="px-2.5 py-1 inline-flex text-xs font-medium rounded-md" style="background-color: {{ $expense->category->color ?? '#3B82F6' }}20; color: {{ $expense->category->color ?? '#3B82F6' }}">
                                             {{ $expense->category->icon ?? '' }} {{ $expense->category->name }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">
                                         {{ auth()->user()->preferred_currency }} {{ number_format(convert_currency($expense->my_share, $expense->currency, auth()->user()->preferred_currency), 2) }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
                                         {{ $expense->payment_method ? __('messages.' . $expense->payment_method) : '-' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">

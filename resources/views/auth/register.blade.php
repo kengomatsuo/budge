@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <!-- Page Title -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create Account</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Start tracking your expenses today</p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}" novalidate>
         @csrf
         <x-form-errors class="mb-4" />
@@ -40,15 +46,20 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4 inline-flex items-center">
-                <x-heroicon-o-check class="w-5 h-5 mr-2" />
-                {{ __('Register') }}
+        <!-- Submit Button -->
+        <div class="mt-6">
+            <x-primary-button class="w-full justify-center">
+                {{ __('Create Account') }}
+                <x-heroicon-o-check class="w-5 h-5 ml-2" />
             </x-primary-button>
+        </div>
+
+        <!-- Login Link -->
+        <div class="mt-6 text-center">
+            <span class="text-sm text-gray-600 dark:text-gray-400">Already have an account?</span>
+            <a class="ml-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('login') }}">
+                {{ __('Sign in instead') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>

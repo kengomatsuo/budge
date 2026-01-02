@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <!-- Page Title -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome Back</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Sign in to your account to continue</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -26,32 +32,35 @@
         </div>
 
         <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
         <div class="flex items-center justify-between mt-4">
-            @if (Route::has('register'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 me-3" href="{{ route('register') }}">
-                    {{ __('Register') }}
+            <label for="remember_me" class="inline-flex items-center cursor-pointer group">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-indigo-600 shadow-sm focus:ring-2 focus:ring-indigo-500/30 dark:focus:ring-indigo-600/30 transition-all duration-200" name="remember">
+                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">{{ __('Remember me') }}</span>
+            </label>
+
+            @if (Route::has('password.request'))
+                <a class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('password.request') }}">
+                    {{ __('Forgot password?') }}
                 </a>
             @endif
-
-            <div class="flex items-center">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-primary-button class="ms-3 inline-flex items-center">
-                    <x-heroicon-o-arrow-right class="w-5 h-5 mr-2" />
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
         </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6">
+            <x-primary-button class="w-full justify-center">
+                {{ __('Log in') }}
+                <x-heroicon-o-arrow-right class="w-5 h-5 ml-2" />
+            </x-primary-button>
+        </div>
+
+        <!-- Register Link -->
+        @if (Route::has('register'))
+            <div class="mt-6 text-center">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Don't have an account?</span>
+                <a class="ml-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('register') }}">
+                    {{ __('Create one now') }}
+                </a>
+            </div>
+        @endif
     </form>
 </x-guest-layout>

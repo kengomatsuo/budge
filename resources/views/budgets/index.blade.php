@@ -1,16 +1,12 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('messages.my_budgets') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="flex items-center gap-2">
+                <x-heroicon-o-calculator class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.my_budgets') }}</h3>
+            </div>
 
-            {{-- Success messages are shown as global toast in the layout --}}
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <div class="flex justify-end mb-4">
                     <x-primary-button onclick="window.location='{{ route('budgets.create') }}'" class="inline-flex items-center">
                         <x-heroicon-o-plus class="w-5 h-5 mr-2" />

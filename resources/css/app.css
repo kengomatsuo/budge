@@ -13,3 +13,53 @@
         -moz-appearance: textfield;
     }
 }
+
+/* Enhanced backdrop blur support - Force enable */
+@layer utilities {
+    .backdrop-blur-xl {
+        -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+        backdrop-filter: blur(16px) saturate(180%) !important;
+    }
+
+    .backdrop-blur-sm {
+        -webkit-backdrop-filter: blur(4px) saturate(180%) !important;
+        backdrop-filter: blur(4px) saturate(180%) !important;
+    }
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+    .backdrop-blur-xl {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+    }
+    .dark .backdrop-blur-xl {
+        background-color: rgba(31, 41, 55, 0.9) !important;
+    }
+}
+
+/* Enhanced form input animations */
+@layer components {
+    select:not([class*="rounded-"]) {
+        @apply rounded-lg;
+    }
+
+    select {
+        @apply transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-600;
+    }
+
+    textarea {
+        @apply transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-600;
+    }
+
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"] {
+        @apply transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-600;
+    }
+
+    /* Focus ring animations */
+    select:focus,
+    textarea:focus {
+        @apply ring-2 ring-indigo-500/30 dark:ring-indigo-600/30;
+    }
+}

@@ -1,17 +1,18 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }"
+    class="sticky top-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" class="transition-transform hover:scale-105 duration-200">
+                        <x-application-logo class="block h-9 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden sm:-my-px sm:ms-10 sm:flex sm:items-center sm:gap-1">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('messages.dashboard') }}
                     </x-nav-link>
@@ -31,29 +32,34 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-3">
                 <!-- Language Switcher -->
-                <form method="POST" action="{{ route('change.language') }}" class="me-3">
+                <form method="POST" action="{{ route('change.language') }}">
                     @csrf
-                        <select name="language" onchange="this.form.submit()" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm text-sm">
-                            <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>{{ __('messages.english') }}</option>
-                            <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>{{ __('messages.indonesian') }}</option>
-                            <option value="es" {{ auth()->user()->preferred_language === 'es' ? 'selected' : '' }}>{{ __('messages.spanish') }}</option>
-                            <option value="zh" {{ auth()->user()->preferred_language === 'zh' ? 'selected' : '' }}>{{ __('messages.chinese') }}</option>
-                            <option value="ko" {{ auth()->user()->preferred_language === 'ko' ? 'selected' : '' }}>{{ __('messages.korean') }}</option>
-                            <option value="ja" {{ auth()->user()->preferred_language === 'ja' ? 'selected' : '' }}>{{ __('messages.japanese') }}</option>
-                        </select>
+                    <select name="language" onchange="this.form.submit()"
+                        class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-600/50 rounded-lg shadow-sm text-sm py-1.5 px-3 transition-all duration-200 hover:bg-white/80 dark:hover:bg-gray-800/80">
+                        <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>
+                            {{ __('messages.english') }}</option>
+                        <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>
+                            {{ __('messages.indonesian') }}</option>
+                        <option value="es" {{ auth()->user()->preferred_language === 'es' ? 'selected' : '' }}>
+                            {{ __('messages.spanish') }}</option>
+                        <option value="zh" {{ auth()->user()->preferred_language === 'zh' ? 'selected' : '' }}>
+                            {{ __('messages.chinese') }}</option>
+                        <option value="ko" {{ auth()->user()->preferred_language === 'ko' ? 'selected' : '' }}>
+                            {{ __('messages.korean') }}</option>
+                        <option value="ja" {{ auth()->user()->preferred_language === 'ja' ? 'selected' : '' }}>
+                            {{ __('messages.japanese') }}</option>
+                    </select>
                 </form>
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <x-secondary-button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                    <x-heroicon-o-chevron-down class="fill-current h-4 w-4" />
-                            </div>
-                        </x-secondary-button>
+                        <button
+                            class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-800/80 hover:border-gray-400/50 dark:hover:border-gray-500/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200">
+                            <span>{{ Auth::user()->name }}</span>
+                            <x-heroicon-o-chevron-down class="ms-2 h-4 w-4 fill-current" />
+                        </button>
                     </x-slot>
 
                     <x-slot name="content">
@@ -66,7 +72,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('messages.logout') }}
                             </x-dropdown-link>
@@ -77,16 +83,20 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <x-secondary-button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-                    <span :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"><x-heroicon-o-bars-3 class="h-6 w-6" /></span>
-                    <span :class="{'hidden': ! open, 'inline-flex': open }" class="hidden"><x-heroicon-o-x-mark class="h-6 w-6" /></span>
-                </x-secondary-button>
+                <button @click="open = ! open"
+                    class="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-gray-800/80 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200">
+                    <span :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"><x-heroicon-o-bars-3
+                            class="h-6 w-6" /></span>
+                    <span :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"><x-heroicon-o-x-mark
+                            class="h-6 w-6" /></span>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{ 'block': open, 'hidden': !open }"
+        class="hidden sm:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('messages.dashboard') }}
@@ -106,13 +116,35 @@
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+        <div class="pt-4 pb-4 border-t border-gray-200/50 dark:border-gray-700/50">
+            <div class="px-4 mb-3">
+                <div class="font-semibold text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
             </div>
 
-            <div class="mt-3 space-y-1">
+            <!-- Mobile Language Switcher -->
+            <div class="px-4 mb-3">
+                <form method="POST" action="{{ route('change.language') }}">
+                    @csrf
+                    <select name="language" onchange="this.form.submit()"
+                        class="w-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-600/50 rounded-lg shadow-sm text-sm py-2 px-3 transition-all duration-200">
+                        <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>
+                            {{ __('messages.english') }}</option>
+                        <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>
+                            {{ __('messages.indonesian') }}</option>
+                        <option value="es" {{ auth()->user()->preferred_language === 'es' ? 'selected' : '' }}>
+                            {{ __('messages.spanish') }}</option>
+                        <option value="zh" {{ auth()->user()->preferred_language === 'zh' ? 'selected' : '' }}>
+                            {{ __('messages.chinese') }}</option>
+                        <option value="ko" {{ auth()->user()->preferred_language === 'ko' ? 'selected' : '' }}>
+                            {{ __('messages.korean') }}</option>
+                        <option value="ja" {{ auth()->user()->preferred_language === 'ja' ? 'selected' : '' }}>
+                            {{ __('messages.japanese') }}</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('messages.profile') }}
                 </x-responsive-nav-link>
@@ -122,7 +154,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('messages.logout') }}
                     </x-responsive-nav-link>
