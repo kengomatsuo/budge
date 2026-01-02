@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/change-language', function() {
         $lang = request('language');
-        if (in_array($lang, ['en', 'id'])) {
+        if (in_array($lang, ['en', 'id', 'es', 'zh', 'ko', 'ja'])) {
             auth()->user()->update(['preferred_language' => $lang]);
         }
         return back();

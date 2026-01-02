@@ -26,7 +26,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             'phone' => ['nullable', 'string', 'max:20'],
-            'preferred_language' => ['required', 'in:en,id'],
+            'preferred_language' => ['required', 'in:en,id,es,zh,ko,ja'],
             'preferred_currency' => ['required', Rule::in(array_keys(config('currencies')))],
         ];
     }
