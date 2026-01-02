@@ -34,12 +34,12 @@
         <!-- Remember Me -->
         <div class="flex items-center justify-between mt-4">
             <label for="remember_me" class="inline-flex items-center cursor-pointer group">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-indigo-600 shadow-sm focus:ring-2 focus:ring-indigo-500/30 dark:focus:ring-indigo-600/30 transition-all duration-200" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-primary-600 shadow-sm focus:ring-2 focus:ring-primary-500/30 dark:focus:ring-primary-600/30 transition-all duration-200" name="remember">
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">{{ __('Remember me') }}</span>
             </label>
 
             @if (Route::has('password.request'))
-                <a class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('password.request') }}">
+                <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200" href="{{ route('password.request') }}">
                     {{ __('Forgot password?') }}
                 </a>
             @endif
@@ -57,7 +57,7 @@
         @if (Route::has('register'))
             <div class="mt-6 text-center">
                 <span class="text-sm text-gray-600 dark:text-gray-400">Don't have an account?</span>
-                <a class="ml-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('register') }}">
+                <a class="ml-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200" href="{{ route('register') }}">
                     {{ __('Create one now') }}
                 </a>
             </div>

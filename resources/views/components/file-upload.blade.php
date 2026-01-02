@@ -14,7 +14,7 @@
         <div class="space-y-1 text-center" x-show="!imagePreview">
             <x-heroicon-o-photo class="mx-auto h-12 w-12 text-gray-400" />
             <div class="flex text-sm text-gray-600 dark:text-gray-400">
-                <label for="receipt" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus-within:outline-none">
+                <label for="receipt" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 focus-within:outline-none">
                     <span>{{ $uploadText ?? __('messages.upload_new_file') }}</span>
                     <input id="receipt" name="receipt" type="file" class="sr-only" accept=".jpg,.jpeg,.png,.pdf"
                         @change="
@@ -47,7 +47,7 @@
             <div class="absolute bottom-2 left-0 right-0 flex justify-center" x-show="!$store.ocr.scanning">
                 <button type="button"
                         @click="$dispatch('scan-receipt', { file: document.getElementById('receipt').files[0] })"
-                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 shadow-lg">
+                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-sm text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 shadow-lg">
                     <x-heroicon-o-sparkles class="w-6 h-6 mr-2" />
                     {{ __('messages.scan_receipt') }}
                 </button>

@@ -17,7 +17,7 @@
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.category') }} *</label>
                             <select name="category_id" id="category_id" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 <option value="">{{ __('messages.category') }}</option>
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -38,7 +38,7 @@
                                     {{ auth()->user()->preferred_currency }}
                                 </span>
                                 <input type="number" name="amount" id="amount" step="0.01" min="0" value="{{ old('amount') }}" required
-                                    class="flex-1 rounded-none rounded-r-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                    class="flex-1 rounded-none rounded-r-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             </div>
                             @error('amount')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -51,17 +51,17 @@
                             <div class="space-y-2">
                                 <label class="inline-flex items-center mr-6">
                                     <input type="radio" name="period_type" value="daily" {{ old('period_type') == 'daily' ? 'checked' : '' }} required
-                                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="rounded-full border-gray-300 text-primary-600 focus:ring-primary-500">
                                     <span class="ml-2 text-gray-700 dark:text-gray-300">{{ __('messages.daily') }}</span>
                                 </label>
                                 <label class="inline-flex items-center mr-6">
                                     <input type="radio" name="period_type" value="weekly" {{ old('period_type') == 'weekly' ? 'checked' : '' }} required
-                                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="rounded-full border-gray-300 text-primary-600 focus:ring-primary-500">
                                     <span class="ml-2 text-gray-700 dark:text-gray-300">{{ __('messages.weekly') }}</span>
                                 </label>
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="period_type" value="monthly" {{ old('period_type', 'monthly') == 'monthly' ? 'checked' : '' }} required
-                                        class="rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        class="rounded-full border-gray-300 text-primary-600 focus:ring-primary-500">
                                     <span class="ml-2 text-gray-700 dark:text-gray-300">{{ __('messages.monthly') }}</span>
                                 </label>
                             </div>
@@ -75,7 +75,7 @@
                             <div>
                                 <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.start_date') }} *</label>
                                 <input x-model="startDate" min="{{ date('Y-m-d') }}" type="date" name="start_date" id="start_date" value="{{ old('start_date', date('Y-m-d')) }}" required
-                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 @error('start_date')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -84,12 +84,12 @@
 
                             <div class="mt-4">
                                 <label class="inline-flex items-center mb-2">
-                                    <input type="checkbox" x-model="hasEndDate" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                    <input type="checkbox" x-model="hasEndDate" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
                                     <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ __('messages.end_date') }}</span>
                                 </label>
                                 <div x-show="hasEndDate">
                                     <input :min="startDate" type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"
-                                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                        class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Leave unchecked to create a budget with no end date.</p>
                                 @error('end_date')

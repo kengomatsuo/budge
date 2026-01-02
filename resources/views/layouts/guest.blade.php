@@ -18,7 +18,7 @@
         <div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/20 dark:from-gray-900 dark:via-indigo-950/30 dark:to-purple-950/20">
             <!-- Animated Background Elements -->
             <div class="fixed inset-0 overflow-hidden pointer-events-none">
-                <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-400/20 dark:bg-indigo-600/10 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-400/20 dark:bg-primary-600/10 rounded-full blur-3xl animate-pulse"></div>
                 <div class="absolute top-1/2 -left-40 w-96 h-96 bg-purple-400/20 dark:bg-purple-600/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
                 <div class="absolute -bottom-40 right-1/3 w-80 h-80 bg-pink-400/20 dark:bg-pink-600/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
             </div>
@@ -27,8 +27,8 @@
                 <!-- Logo -->
                 <div class="mb-8">
                     <a href="/" class="flex flex-col items-center gap-3 group">
-                        <x-application-logo class="w-16 h-16 fill-current text-indigo-600 dark:text-indigo-400 transition-transform duration-300 group-hover:scale-110" />
-                        <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                        <x-application-logo class="w-16 h-16 fill-current text-primary-600 dark:text-primary-400 transition-transform duration-300 group-hover:scale-110" />
+                        <span class="text-2xl font-bold bg-gradient-to-r from-primary-600 to-indigo-600 dark:from-primary-400 dark:to-indigo-400 bg-clip-text text-transparent">
                             Expense Tracker
                         </span>
                     </a>
@@ -43,7 +43,7 @@
 
                 <!-- Footer Link -->
                 <div class="mt-6 text-center">
-                    <a href="/" class="text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                    <a href="/" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200">
                         ← Back to Home
                     </a>
                 </div>

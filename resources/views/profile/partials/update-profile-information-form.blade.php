@@ -35,7 +35,7 @@
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
                         {{ __('Your email address is unverified.') }}
 
-                        <x-secondary-button form="send-verification" type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                        <x-secondary-button form="send-verification" type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-800">
                             {{ __('Click here to re-send the verification email.') }}
                         </x-secondary-button>
                     </p>
@@ -57,7 +57,7 @@
 
         <div>
             <x-input-label for="preferred_language" :value="__('messages.language')" />
-            <select id="preferred_language" name="preferred_language" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+            <select id="preferred_language" name="preferred_language" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 rounded-md shadow-sm">
                 <option value="en" {{ old('preferred_language', $user->preferred_language) === 'en' ? 'selected' : '' }}>{{ __('messages.english') }}</option>
                 <option value="id" {{ old('preferred_language', $user->preferred_language) === 'id' ? 'selected' : '' }}>{{ __('messages.indonesian') }}</option>
                 <option value="es" {{ old('preferred_language', $user->preferred_language) === 'es' ? 'selected' : '' }}>{{ __('messages.spanish') }}</option>
@@ -70,7 +70,7 @@
 
         <div>
             <x-input-label for="preferred_currency" :value="__('messages.currency')" />
-            <select id="preferred_currency" name="preferred_currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+            <select id="preferred_currency" name="preferred_currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 rounded-md shadow-sm">
                 @foreach($currencies as $code => $details)
                     <option value="{{ $code }}" {{ old('preferred_currency', $user->preferred_currency) === $code ? 'selected' : '' }}>
                         {{ $code }} ({{ $details['symbol'] }})

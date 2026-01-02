@@ -32,7 +32,7 @@
                         <div>
                             <x-input-label for="color" :value="__('messages.color')" />
                             <input type="color" name="color" id="color" value="{{ old('color', '#3B82F6') }}"
-                                class="mt-1 block h-10 w-20 rounded-md border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block h-10 w-20 rounded-md border-gray-300 dark:border-gray-700 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             <x-input-error class="mt-2" :messages="$errors->get('color')" />
                         </div>
 

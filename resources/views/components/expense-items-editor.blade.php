@@ -75,7 +75,7 @@
                 </tr>
                 <tr class="border-t border-gray-200 dark:border-gray-700">
                     <td colspan="3" class="px-4 py-3 text-right text-base font-bold text-gray-900 dark:text-gray-100">{{ __('messages.grand_total') }}</td>
-                    <td class="px-4 py-3 text-right text-base font-bold text-indigo-600 dark:text-indigo-400" x-text="formatMoney(grandTotal)"></td>
+                    <td class="px-4 py-3 text-right text-base font-bold text-primary-600 dark:text-primary-400" x-text="formatMoney(grandTotal)"></td>
                     <td></td>
                 </tr>
             </tfoot>

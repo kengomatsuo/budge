@@ -57,7 +57,7 @@
         <!-- Login Link -->
         <div class="mt-6 text-center">
             <span class="text-sm text-gray-600 dark:text-gray-400">Already have an account?</span>
-            <a class="ml-1 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200" href="{{ route('login') }}">
+            <a class="ml-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200" href="{{ route('login') }}">
                 {{ __('Sign in instead') }}
             </a>
         </div>

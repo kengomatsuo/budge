@@ -7,7 +7,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="transition-transform hover:scale-105 duration-200">
-                        <x-application-logo class="block h-9 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-primary-600 dark:text-primary-400" />
                     </a>
                 </div>
 
@@ -37,7 +37,7 @@
                 <form method="POST" action="{{ route('change.language') }}">
                     @csrf
                     <select name="language" onchange="this.form.submit()"
-                        class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-600/50 rounded-lg shadow-sm text-sm py-1.5 px-3 transition-all duration-200 hover:bg-white/80 dark:hover:bg-gray-800/80">
+                        class="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-500/50 dark:focus:ring-primary-600/50 rounded-lg shadow-sm text-sm py-1.5 px-3 transition-all duration-200 hover:bg-white/80 dark:hover:bg-gray-800/80">
                         <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>
                             {{ __('messages.english') }}</option>
                         <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>
@@ -56,7 +56,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-800/80 hover:border-gray-400/50 dark:hover:border-gray-500/50 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200">
+                            class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-800/80 hover:border-gray-400/50 dark:hover:border-gray-500/50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all duration-200">
                             <span>{{ Auth::user()->name }}</span>
                             <x-heroicon-o-chevron-down class="ms-2 h-4 w-4 fill-current" />
                         </button>
@@ -84,7 +84,7 @@
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-gray-800/80 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200">
+                    class="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/80 dark:hover:bg-gray-800/80 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all duration-200">
                     <span :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"><x-heroicon-o-bars-3
                             class="h-6 w-6" /></span>
                     <span :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"><x-heroicon-o-x-mark
@@ -127,7 +127,7 @@
                 <form method="POST" action="{{ route('change.language') }}">
                     @csrf
                     <select name="language" onchange="this.form.submit()"
-                        class="w-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-600/50 rounded-lg shadow-sm text-sm py-2 px-3 transition-all duration-200">
+                        class="w-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-300/50 dark:border-gray-600/50 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-2 focus:ring-primary-500/50 dark:focus:ring-primary-600/50 rounded-lg shadow-sm text-sm py-2 px-3 transition-all duration-200">
                         <option value="en" {{ auth()->user()->preferred_language === 'en' ? 'selected' : '' }}>
                             {{ __('messages.english') }}</option>
                         <option value="id" {{ auth()->user()->preferred_language === 'id' ? 'selected' : '' }}>

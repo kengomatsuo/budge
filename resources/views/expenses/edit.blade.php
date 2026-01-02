@@ -18,7 +18,7 @@
                         <div>
                             <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.expense_title') }} *</label>
                             <input type="text" name="title" id="title" value="{{ old('title', $expense->title) }}" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             @error('title')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -27,7 +27,7 @@
                         <div>
                             <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.amount') }} *</label>
                             <input type="number" name="amount" id="amount" step="0.01" min="0.01" value="{{ old('amount', $expense->amount) }}" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             @error('amount')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -36,7 +36,7 @@
                         <div>
                             <label for="currency" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.currency') }} *</label>
                             <select name="currency" id="currency" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 @foreach($currencies as $code => $details)
                                     <option value="{{ $code }}" {{ old('currency', $expense->currency) === $code ? 'selected' : '' }}>
                                         {{ $code }} ({{ $details['symbol'] }})
@@ -51,7 +51,7 @@
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.category') }} *</label>
                             <select name="category_id" id="category_id" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 <option value="">{{ __('messages.category') }}</option>
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id', $expense->category_id) == $category->id ? 'selected' : '' }}>
@@ -67,7 +67,7 @@
                         <div>
                             <label for="expense_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.expense_date') }} *</label>
                             <input type="date" name="expense_date" id="expense_date" max="{{ date('Y-m-d') }}" value="{{ old('expense_date', $expense->expense_date->format('Y-m-d')) }}" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             @error('expense_date')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -76,7 +76,7 @@
                         <div>
                             <label for="payment_method" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.payment_method') }} *</label>
                             <select name="payment_method" id="payment_method"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 <option value="cash" {{ old('payment_method', $expense->payment_method) == 'cash' ? 'selected' : '' }}>{{ __('messages.cash') }}</option>
                                 <option value="debit_card" {{ old('payment_method', $expense->payment_method) == 'debit_card' ? 'selected' : '' }}>{{ __('messages.debit_card') }}</option>
                                 <option value="credit_card" {{ old('payment_method', $expense->payment_method) == 'credit_card' ? 'selected' : '' }}>{{ __('messages.credit_card') }}</option>
@@ -90,7 +90,7 @@
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.description') }}</label>
                             <textarea name="description" id="description" rows="3"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">{{ old('description', $expense->description) }}</textarea>
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">{{ old('description', $expense->description) }}</textarea>
                             @error('description')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -98,7 +98,7 @@
 
                         <div class="mt-4">
                             <label class="flex items-center space-x-3">
-                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('is_shared', $expense->is_shared) ? 'checked' : '' }}>
+                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-primary-600 shadow-sm focus:ring-primary-500" {{ old('is_shared', $expense->is_shared) ? 'checked' : '' }}>
                                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_expense') }}</span>
                             </label>
                         </div>

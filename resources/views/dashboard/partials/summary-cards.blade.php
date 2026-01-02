@@ -3,7 +3,7 @@
         <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
             {{ __('messages.total_expenses_month') }}
         </div>
-        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
             {{ auth()->user()->preferred_currency }} {{ number_format($totalExpensesMonth, 2) }}
         </div>
     </div>
@@ -12,7 +12,7 @@
         <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
             {{ __('messages.total_budget') }}
         </div>
-        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
             {{ auth()->user()->preferred_currency }} {{ number_format($totalBudget, 2) }}
         </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
             {{ __('messages.expenses_today') }}
         </div>
-        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
             {{ auth()->user()->preferred_currency }} {{ number_format($expensesToday, 2) }}
         </div>
     </div>

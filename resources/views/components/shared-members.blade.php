@@ -27,13 +27,13 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_with') }}</label>
             <input type="text" x-model="query" @input.debounce.250="filter()" :placeholder="'{{ __('messages.search_users') }}'"
                 @keydown.arrow-down.prevent="moveDown()" @keydown.arrow-up.prevent="moveUp()" @keydown.enter.prevent="selectFocused()" @keydown.escape.prevent="suggestions=[]; focusIndex=-1"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 focus:ring-primary-500">
 
             <div x-show="suggestions.length > 0" x-transition
                 class="absolute left-0 right-0 w-full mt-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 shadow max-h-48 overflow-auto z-50">
                 <template x-for="(user, index) in suggestions" :key="user.id">
                     <div @click="addUser(user)" @mouseenter="focusIndex = index" @mouseleave="focusIndex = -1"
-                        :class="{ 'bg-indigo-50 dark:bg-indigo-600 text-indigo-700 dark:text-white': focusIndex === index }"
+                        :class="{ 'bg-primary-50 dark:bg-primary-600 text-primary-700 dark:text-white': focusIndex === index }"
                         class="px-3 py-2 cursor-pointer w-full">
                         <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="user.name"></div>
                         <div class="text-xs text-gray-500 dark:text-gray-400" x-text="user.email"></div>
@@ -46,7 +46,7 @@
             <label
                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_method') }}</label>
             <select x-model="splitType" @change="$dispatch('split-type-change', splitType)"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 focus:ring-primary-500">
                 <option value="equal">{{ __('messages.split_equally') }}</option>
                 <option value="manual">{{ __('messages.split_manually') }}</option>
                 <option value="items">{{ __('messages.split_by_items') }}</option>

@@ -24,7 +24,7 @@
                                     min="0"
                                     :max="item.quantity"
                                     step="0.1"
-                                    class="w-20 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-right text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    class="w-20 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 text-right text-sm focus:ring-primary-500 focus:border-primary-500"
                                     placeholder="Qty">
                                 <span class="text-xs text-gray-500 w-16 text-right"
                                       x-text="formatMoney((itemAssignments[itemIndex][user.id] || 0) * item.unit_price)"></span>

@@ -18,7 +18,7 @@
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.category_name') }} *</label>
                             <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" required
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             @error('name')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -28,7 +28,7 @@
                         <div>
                             <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.icon') }} (Emoji)</label>
                             <input type="text" name="icon" id="icon" value="{{ old('icon', $category->icon) }}" placeholder="📝" maxlength="10"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Common: 🍔 🚗 🛍️ 🎬 🏥 💡 📚 🏠 💅 📝</p>
                             @error('icon')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -39,7 +39,7 @@
                         <div>
                             <label for="color" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.color') }}</label>
                             <input type="color" name="color" id="color" value="{{ old('color', $category->color ?? '#3B82F6') }}"
-                                class="mt-1 block h-10 w-20 rounded-md border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block h-10 w-20 rounded-md border-gray-300 dark:border-gray-700 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                             @error('color')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror

@@ -35,7 +35,7 @@
                         <div>
                             <x-input-label for="description" :value="__('messages.description')" />
                             <textarea name="description" id="description" rows="3"
-                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('description') }}</textarea>
+                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 rounded-md shadow-sm">{{ old('description') }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('description')" />
                         </div>
 
@@ -52,7 +52,7 @@
                                         x-bind:class="{'bg-gray-100 dark:bg-gray-700': items.length > 0}"
                                         required />
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3" x-show="items.length === 0">
-                                        <button type="button" @click="addItem()" class="text-sm text-indigo-600 hover:text-indigo-500">
+                                        <button type="button" @click="addItem()" class="text-sm text-primary-600 hover:text-primary-500">
                                             {{ __('messages.add_item') }}
                                         </button>
                                     </div>
@@ -61,7 +61,7 @@
                             </div>
                             <div>
                                 <x-input-label for="currency" :value="__('messages.currency') . ' *'" />
-                                <select id="currency" name="currency" required x-model="form.currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <select id="currency" name="currency" required x-model="form.currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 rounded-md shadow-sm">
                                     @foreach($currencies as $code => $details)
                                         <option value="{{ $code }}">{{ $code }} ({{ $details['symbol'] }})</option>
                                     @endforeach
@@ -86,7 +86,7 @@
                         <div>
                             <x-input-label for="category_id" :value="__('messages.category') . ' *'" />
                             <select name="category_id" id="category_id" required x-model="form.category_id"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 <option value="">{{ __('messages.category') }}</option>
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -101,7 +101,7 @@
                         <div>
                             <x-input-label for="payment_method" :value="__('messages.payment_method') . ' *'" />
                             <select name="payment_method" id="payment_method" x-model="form.payment_method"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-primary-500 dark:focus:border-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
                                 <option value="">{{ __('messages.payment_method') }}</option>
                                 <option value="cash" {{ old('payment_method') == 'cash' ? 'selected' : '' }}>{{ __('messages.cash') }}</option>
                                 <option value="debit_card" {{ old('payment_method') == 'debit_card' ? 'selected' : '' }}>{{ __('messages.debit_card') }}</option>
@@ -115,7 +115,7 @@
                         <!-- Split / Shared Expense -->
                         <div class="mt-4">
                             <label class="flex items-center space-x-3">
-                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                <input type="checkbox" id="is_shared" name="is_shared" value="1" x-model="isShared" class="rounded text-primary-600 shadow-sm focus:ring-primary-500">
                                 <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.split_expense') }}</span>
                             </label>
                         </div>
