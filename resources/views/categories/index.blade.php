@@ -6,7 +6,7 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.expense_categories') }}</h3>
             </div>
 
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+            <div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <div class="flex justify-end mb-4">
                     <x-primary-button onclick="window.location='{{ route('categories.create') }}'" class="inline-flex items-center">
                         <x-heroicon-o-plus class="w-5 h-5 mr-2" />

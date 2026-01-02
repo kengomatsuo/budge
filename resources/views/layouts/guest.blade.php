@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/20 dark:from-gray-900 dark:via-indigo-950/30 dark:to-purple-950/20">
+        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/20 dark:from-gray-900 dark:via-indigo-950/90 dark:to-purple-950/80">
             <!-- Animated Background Elements -->
             <div class="fixed inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-400/20 dark:bg-primary-600/10 rounded-full blur-3xl animate-pulse"></div>
@@ -36,7 +36,7 @@
 
                 <!-- Card -->
                 <div class="w-full sm:max-w-lg">
-                    <div class="p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-shadow duration-300 hover:shadow-2xl">
+                    <div class="p-8 bg-white/60 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-shadow duration-300 hover:shadow-2xl">
                         {{ $slot }}
                     </div>
                 </div>

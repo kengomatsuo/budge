@@ -3,7 +3,7 @@
     $maxAmount = ($items instanceof \Illuminate\Support\Collection) ? $items->max('total') ?? 1 : 1;
 @endphp
 
-<div class="p-6 flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
+<div class="p-6 flex flex-col bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-5">{{ $title }}</h3>
 
     <div class="flex items-end justify-around space-x-2 flex-1 overflow-x-scroll {{ $startRight ? 'js-scroll-right' : '' }}">

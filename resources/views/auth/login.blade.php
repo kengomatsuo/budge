@@ -39,7 +39,7 @@
             </label>
 
             @if (Route::has('password.request'))
-                <a class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200" href="{{ route('password.request') }}">
+                <a class="text-sm font-medium text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-primary-200 transition-colors duration-200" href="{{ route('password.request') }}">
                     {{ __('Forgot password?') }}
                 </a>
             @endif
@@ -57,7 +57,7 @@
         @if (Route::has('register'))
             <div class="mt-6 text-center">
                 <span class="text-sm text-gray-600 dark:text-gray-400">Don't have an account?</span>
-                <a class="ml-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200" href="{{ route('register') }}">
+                <a class="ml-1 text-sm font-semibold text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-primary-200 transition-colors duration-200" href="{{ route('register') }}">
                     {{ __('Create one now') }}
                 </a>
             </div>

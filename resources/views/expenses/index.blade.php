@@ -7,7 +7,7 @@
             </div>
 
             <!-- Filter Section -->
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+            <div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <form method="GET" action="{{ route('expenses.index') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4" x-data="{ date_from: '{{ request('date_from') }}', date_to: '{{ request('date_to') }}' }">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.from') }}</label>
@@ -56,7 +56,7 @@
             </div>
 
             <!-- Expenses Table -->
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+            <div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <div>
                     <div class="mb-4 flex">
                         <x-primary-button type="button" onclick="window.location='{{ route('expenses.create') }}'" class="ml-auto inline-flex items-center">

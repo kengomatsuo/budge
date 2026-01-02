@@ -14,7 +14,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/20 dark:from-gray-900 dark:via-indigo-950/30 dark:to-purple-950/20">
+        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-indigo-50/30 to-purple-50/20 dark:from-gray-900 dark:via-indigo-950/90 dark:to-purple-950/80">
             <!-- Animated Background Elements -->
             <div class="fixed inset-0 overflow-hidden pointer-events-none">
                 <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-400/20 dark:bg-primary-600/10 rounded-full blur-3xl animate-pulse"></div>
@@ -67,7 +67,7 @@
                         <!-- Feature Cards -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <!-- Track Expenses Card -->
-                            <a href="{{ route('expenses.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
+                            <a href="{{ route('expenses.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
                                 <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 dark:from-indigo-400 dark:to-indigo-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                                     <x-heroicon-o-document-text class="w-7 h-7 text-white" />
                                 </div>
@@ -80,7 +80,7 @@
                             </a>
 
                             <!-- Attach Receipts Card -->
-                            <a href="{{ route('expenses.create') }}" class="group p-6 bg-white/60 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
+                            <a href="{{ route('expenses.create') }}" class="group p-6 bg-white/60 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
                                 <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                                     <x-heroicon-o-photo class="w-7 h-7 text-white" />
                                 </div>
@@ -93,7 +93,7 @@
                             </a>
 
                             <!-- Shared Expenses Card -->
-                            <a href="{{ route('expenses.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
+                            <a href="{{ route('expenses.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
                                 <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-700 dark:from-pink-400 dark:to-pink-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                                     <x-heroicon-o-users class="w-7 h-7 text-white" />
                                 </div>
@@ -106,7 +106,7 @@
                             </a>
 
                             <!-- Budgets Card -->
-                            <a href="{{ route('budgets.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
+                            <a href="{{ route('budgets.index') }}" class="group p-6 bg-white/60 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:-translate-y-2">
                                 <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 dark:from-emerald-400 dark:to-emerald-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                                     <x-heroicon-o-chart-pie class="w-7 h-7 text-white" />
                                 </div>
@@ -127,7 +127,7 @@
                                         <span>Start Tracking Now</span>
                                         <x-heroicon-o-arrow-right class="w-5 h-5 ml-2" />
                                     </a>
-                                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-semibold text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-300/70 dark:border-gray-600/70 shadow-sm hover:bg-white dark:hover:bg-gray-800 hover:shadow-md transition-all duration-200">
+                                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-semibold text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-300/70 dark:border-gray-600/70 shadow-sm hover:bg-white dark:hover:bg-gray-800 hover:shadow-md transition-all duration-200 active:scale-95">
                                         Sign In
                                     </a>
                                 </div>

@@ -7,7 +7,7 @@
             </div>
 
             <!-- Filter Section -->
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50" x-data="{ type: '{{ $type }}' }">
+            <div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50" x-data="{ type: '{{ $type }}' }">
                 <form method="GET" action="{{ route('reports.index') }}" class="flex flex-wrap gap-4 items-end">
                     <!-- Type Selector -->
                     <div>
@@ -70,21 +70,21 @@
 
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="group p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/50 rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
+                <div class="group p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
                     <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">{{ __('messages.total_spent') }}</div>
                     <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {{ auth()->user()->preferred_currency }} {{ number_format($totalSpent, 2) }}
                     </div>
                 </div>
 
-                <div class="group p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/50 rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
+                <div class="group p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
                     <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">{{ __('messages.average_spending') }}</div>
                     <div class="mt-3 text-3xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {{ auth()->user()->preferred_currency }} {{ number_format($averageSpending, 2) }}
                     </div>
                 </div>
 
-                <div class="group p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/50 rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
+                <div class="group p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm hover:shadow-md border border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 hover:-translate-y-0.5">
                     <div class="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">{{ __('messages.largest_expense') }}</div>
                     <div class="mt-3 text-2xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         @if($largestExpense)
@@ -113,7 +113,7 @@
             </div>
 
             <!-- Top Categories -->
-            <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
+            <div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.top_category') }}</h3>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-700/50">

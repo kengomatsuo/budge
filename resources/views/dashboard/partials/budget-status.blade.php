@@ -1,4 +1,4 @@
-<div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
+<div class="p-6 bg-white/60 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-5">
         {{ __('messages.budget_status') }}
     </h3>
