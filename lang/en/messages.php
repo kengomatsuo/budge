@@ -14,6 +14,7 @@ return [
     'total_budget' => 'Total Budget Set',
     'budget_remaining' => 'Budget Remaining',
     'expenses_today' => 'Expenses Today',
+    'i_owe_others' => 'I Owe Others',
 
     'spending_by_category' => 'Spending by Category',
     'spending_trend' => 'Spending Trend',

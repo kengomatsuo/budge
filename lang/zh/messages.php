@@ -14,6 +14,7 @@ return [
     'total_budget' => '总预算',
     'budget_remaining' => '剩余预算',
     'expenses_today' => '今日支出',
+    'i_owe_others' => '我欠他人',
 
     'spending_by_category' => '按类别支出',
     'spending_trend' => '支出趋势',

@@ -14,6 +14,7 @@ return [
     'total_budget' => '총 예산',
     'budget_remaining' => '남은 예산',
     'expenses_today' => '오늘의 지출',
+    'i_owe_others' => '빚진 금액',
 
     'spending_by_category' => '카테고리별 지출',
     'spending_trend' => '지출 추세',

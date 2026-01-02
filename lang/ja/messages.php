@@ -14,6 +14,7 @@ return [
     'total_budget' => '総予算',
     'budget_remaining' => '残りの予算',
     'expenses_today' => '本日の支出',
+    'i_owe_others' => '他人への借金',
 
     'spending_by_category' => 'カテゴリ別支出',
     'spending_trend' => '支出の推移',

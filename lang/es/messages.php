@@ -14,6 +14,7 @@ return [
     'total_budget' => 'Presupuesto Total',
     'budget_remaining' => 'Presupuesto Restante',
     'expenses_today' => 'Gastos Hoy',
+    'i_owe_others' => 'Debo a Otros',
 
     'spending_by_category' => 'Gasto por Categoría',
     'spending_trend' => 'Tendencia de Gasto',

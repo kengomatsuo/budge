@@ -14,6 +14,7 @@ return [
     'total_budget' => 'Total Anggaran',
     'budget_remaining' => 'Sisa Anggaran',
     'expenses_today' => 'Pengeluaran Hari Ini',
+    'i_owe_others' => 'Saya Berhutang',
 
     'spending_by_category' => 'Pengeluaran per Kategori',
     'spending_trend' => 'Tren Pengeluaran',

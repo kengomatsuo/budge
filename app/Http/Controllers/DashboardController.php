@@ -59,6 +59,37 @@ class DashboardController extends Controller
                 return convert_currency($e->my_share, $e->currency ?? 'IDR', $user->preferred_currency);
             });
 
+        // Calculate total amount user owes to others (unpaid shared expenses)
+        // Group by expense owner to show breakdown
+        $unpaidDebts = DB::table('shared_expense_members')
+            ->join('expenses', 'shared_expense_members.expense_id', '=', 'expenses.id')
+            ->join('users', 'expenses.user_id', '=', 'users.id')
+            ->where('shared_expense_members.user_id', $user->id)
+            ->where('shared_expense_members.is_paid', false)
+            ->select(
+                'users.id as owner_id',
+                'users.name as owner_name',
+                DB::raw('SUM(shared_expense_members.split_amount) as total_owed'),
+                'expenses.currency'
+            )
+            ->groupBy('users.id', 'users.name', 'expenses.currency')
+            ->get()
+            ->groupBy('owner_id')
+            ->map(function($debts) use ($user) {
+                $ownerName = $debts->first()->owner_name;
+                $totalOwed = $debts->sum(function($debt) use ($user) {
+                    return convert_currency($debt->total_owed, $debt->currency ?? 'IDR', $user->preferred_currency);
+                });
+                return (object) [
+                    'owner_name' => $ownerName,
+                    'total_owed' => $totalOwed
+                ];
+            })
+            ->sortByDesc('total_owed')
+            ->values();
+
+        $iOweOthers = $unpaidDebts->sum('total_owed');
+
         // Build spending by category converted to user's preferred currency
         $rawByCategory = Expense::with(['category', 'sharedMembers'])
             ->where(function($q) use ($user) {
@@ -159,6 +190,8 @@ class DashboardController extends Controller
             'totalBudget',
             'budgetRemaining',
             'expensesToday',
+            'iOweOthers',
+            'unpaidDebts',
             'spendingByCategory',
             'spendingTrend',
             'recentExpenses',

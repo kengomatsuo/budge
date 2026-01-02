@@ -18,10 +18,13 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @include('dashboard.partials.recent-expenses')
+                @include('dashboard.partials.i-owe-others')
                 @include('dashboard.partials.budget-status')
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                @include('dashboard.partials.recent-expenses')
             </div>
         </div>
     </div>
 </x-app-layout>
-
