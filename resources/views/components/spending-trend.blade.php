@@ -1,4 +1,4 @@
-@props(['items', 'title' => __('messages.spending_trend_7_day'), 'colorClass' => 'bg-blue-500', 'startRight' => false])
+@props(['items', 'title' => __('messages.spending_trend_7_day'), 'colorClass' => 'bg-accent-500', 'startRight' => false])
 @php
     $maxAmount = ($items instanceof \Illuminate\Support\Collection) ? $items->max('total') ?? 1 : 1;
 @endphp
