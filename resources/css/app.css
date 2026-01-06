@@ -12,6 +12,12 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    /* Hide calendar icon in Chrome for date inputs */
+    input[type=date]::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
 }
 
 /* Enhanced backdrop blur support - Force enable */
