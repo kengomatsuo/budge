@@ -1,6 +1,4 @@
-# Expense Tracker Setup
-
-## Setup Steps
+# Budge Setup
 
 1. Install dependencies:
 ```bash
