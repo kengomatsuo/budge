@@ -52,7 +52,7 @@
                                         x-bind:class="{'bg-gray-100 dark:bg-gray-700': items.length > 0}"
                                         required />
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3" x-show="items.length === 0">
-                                        <button type="button" @click="addItem()" class="text-sm text-primary-600 hover:text-primary-500">
+                                        <button type="button" @click="addItem()" class="text-sm text-primary-600 hover:text-primary-500 dark:text-primary-200 dark:hover:text-primary-100">
                                             {{ __('messages.add_item') }}
                                         </button>
                                     </div>
