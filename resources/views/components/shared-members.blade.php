@@ -121,12 +121,18 @@
             selected: [],
             splitType: initialSplitType === 'items' ? 'manual' : (initialSplitType || 'equal'),
             amount: parseFloat(amount || 0),
-            currency: this.$root.closest('[x-data*="expenseForm"]')?.__x?.$data?.form?.currency || '{{ auth()->user()->preferred_currency }}',
+            currency: '{{ auth()->user()->preferred_currency }}',
             customSplits: {},
             equalBase: 0,
             equalRemainder: 0,
             focusIndex: -1,
             init() {
+                // Get currency from parent form if available
+                const parentForm = this.$root.closest('[x-data*="expenseForm"]');
+                if (parentForm && parentForm.__x && parentForm.__x.$data && parentForm.__x.$data.form) {
+                    this.currency = parentForm.__x.$data.form.currency;
+                }
+
                 // Initialize selected users
                 this.selected = initialSelected.map(id => this.allUsers.find(u => u.id == id)).filter(Boolean);
 
@@ -221,9 +227,10 @@
                 }
                 // Split among selected users (which now includes current user)
                 const count = this.selected.length;
-                const base = Math.floor((this.amount / count) * 100) / 100;
+                const amount = parseFloat(this.amount) || 0;
+                const base = Math.floor((amount / count) * 100) / 100;
                 const totalAssigned = base * count;
-                const remainder = Math.round((this.amount - totalAssigned) * 100) / 100;
+                const remainder = Math.round((amount - totalAssigned) * 100) / 100;
 
                 this.equalBase = base;
                 this.equalRemainder = remainder;
@@ -242,8 +249,11 @@
                 }
             },
             get totalAssigned() {
-                if (this.splitType === 'equal') return (this.equalBase || 0) * this.selected.length + (this
-                    .equalRemainder || 0);
+                if (this.splitType === 'equal') {
+                    const base = parseFloat(this.equalBase) || 0;
+                    const remainder = parseFloat(this.equalRemainder) || 0;
+                    return base * this.selected.length + remainder;
+                }
                 if (this.splitType === 'items') return 0; // Handled elsewhere
                 return this.selected.reduce((s, u) => s + (parseFloat(this.customSplits[u.id] || 0)), 0);
             },
@@ -251,10 +261,19 @@
                 return Number(v || 0).toFixed(2);
             },
             formatMoney(amount) {
-                return new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: this.currency
-                }).format(amount || 0);
+                const value = parseFloat(amount) || 0;
+                try {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: this.currency || 'USD'
+                    }).format(value);
+                } catch (e) {
+                    // Fallback if currency is invalid
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                    }).format(value);
+                }
             },
         }
     }
